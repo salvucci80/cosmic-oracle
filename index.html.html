@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Oracle - Personalized Astrology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0033 0%, #2d1b4e 50%, #1a0033 100%);
+            color: #f0e6ff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
+            background-size: 200% 200%;
+            animation: twinkle 4s ease-in-out infinite;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #d4a5ff;
+            font-style: italic;
+        }
+
+        .input-section {
+            background: rgba(45, 27, 78, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid #8b4fcc;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(139, 79, 204, 0.3);
+        }
+
+        .premium-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a0033;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .premium-section {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .premium-section::before {
+            content: '👑 PREMIUM';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a0033;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .premium-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .premium-option {
+            background: rgba(26, 0, 51, 0.6);
+            border: 2px solid #8b4fcc;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .premium-option:hover {
+            border-color: #ffd700;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .premium-option h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .premium-option p {
+            color: #d4a5ff;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .price {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d4a5ff;
+            font-weight: bold;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(26, 0, 51, 0.8);
+            border: 2px solid #8b4fcc;
+            border-radius: 10px;
+            color: #f0e6ff;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(26, 0, 51, 0.8);
+            border: 2px solid #8b4fcc;
+            border-radius: 10px;
+            color: #f0e6ff;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #8b4fcc 0%, #6b2fb5 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #9d5fe0 0%, #7d3fc9 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 79, 204, 0.5);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reading-type-pills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .pill {
+            padding: 10px 18px;
+            background: rgba(26, 0, 51, 0.8);
+            border: 2px solid #8b4fcc;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #d4a5ff;
+            font-size: 0.95rem;
+        }
+
+        .pill.active {
+            background: linear-gradient(135deg, #8b4fcc 0%, #6b2fb5 100%);
+            color: #fff;
+            border-color: #ffd700;
+        }
+
+        .pill:hover {
+            border-color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .mood-pills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .mood-pills .pill {
+            text-align: center;
+            padding: 12px;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid #8b4fcc;
+            color: #d4a5ff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            width: auto;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .toggle-btn:hover {
+            border-color: #ffd700;
+            color: #ffd700;
+            transform: translateY(0);
+        }
+
+        .results {
+            display: none;
+        }
+
+        .card {
+            background: rgba(45, 27, 78, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid #8b4fcc;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(139, 79, 204, 0.3);
+        }
+
+        .card h2 {
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .card-image {
+            width: 100%;
+            max-width: 500px;
+            height: 500px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 15px;
+            border: 3px solid #8b4fcc;
+            box-shadow: 0 8px 32px rgba(139, 79, 204, 0.5);
+            object-fit: cover;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #d4a5ff;
+            font-style: italic;
+        }
+
+        .horoscope-text, .numerology-text {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #f0e6ff;
+            margin-bottom: 15px;
+        }
+
+        .date-range {
+            text-align: center;
+            color: #d4a5ff;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .compatibility-score {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score-circle {
+            display: inline-block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b4fcc 0%, #6b2fb5 100%);
+            border: 4px solid #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 10px auto;
+        }
+
+        .alert-box {
+            background: rgba(255, 107, 107, 0.15);
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .alert-box.warning {
+            background: rgba(255, 193, 7, 0.15);
+            border-color: #ffc107;
+        }
+
+        .alert-box.positive {
+            background: rgba(76, 175, 80, 0.15);
+            border-color: #4caf50;
+        }
+
+        .week-forecast {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .day-card {
+            background: rgba(26, 0, 51, 0.6);
+            border: 2px solid #8b4fcc;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .day-card h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .energy-meter {
+            width: 100%;
+            height: 8px;
+            background: rgba(139, 79, 204, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .energy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b 0%, #ffd700 50%, #4caf50 100%);
+            transition: width 0.5s ease;
+        }
+
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .reading-type-pills {
+                flex-direction: column;
+            }
+            
+            .pill {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ Cosmic Oracle ✨</h1>
+            <p class="subtitle">Your Personalized Celestial Guide</p>
+        </header>
+
+        <div class="input-section">
+            <div class="form-group">
+                <label>Choose Your Reading Type:</label>
+                <div class="reading-type-pills">
+                    <div class="pill active" data-type="daily" onclick="selectReadingType('daily')">
+                        ✨ Daily Reading
+                    </div>
+                    <div class="pill" data-type="mood" onclick="selectReadingType('mood')">
+                        😌 Mood-Based
+                    </div>
+                    <div class="pill" data-type="event" onclick="selectReadingType('event')">
+                        📍 Event-Specific
+                    </div>
+                    <div class="pill" data-type="compatibility" onclick="selectReadingType('compatibility')">
+                        🤝 Quick Compatibility
+                    </div>
+                    <div class="pill" data-type="sync" onclick="selectReadingType('sync')">
+                        📆 Sync Calendar <span class="premium-badge">Pro</span>
+                    </div>
+                    <div class="pill" data-type="relationship" onclick="selectReadingType('relationship')">
+                        💕 Deep Report <span class="premium-badge">Pro</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="zodiac">Your Zodiac Sign:</label>
+                <select id="zodiac">
+                    <option value="">Select your sign...</option>
+                    <option value="aries">♈ Aries</option>
+                    <option value="taurus">♉ Taurus</option>
+                    <option value="gemini">♊ Gemini</option>
+                    <option value="cancer">♋ Cancer</option>
+                    <option value="leo">♌ Leo</option>
+                    <option value="virgo">♍ Virgo</option>
+                    <option value="libra">♎ Libra</option>
+                    <option value="scorpio">♏ Scorpio</option>
+                    <option value="sagittarius">♐ Sagittarius</option>
+                    <option value="capricorn">♑ Capricorn</option>
+                    <option value="aquarius">♒ Aquarius</option>
+                    <option value="pisces">♓ Pisces</option>
+                </select>
+            </div>
+
+            <!-- Mood Selection -->
+            <div class="mood-input" id="moodInput" style="display: none;">
+                <div class="form-group">
+                    <label>How are you feeling right now?</label>
+                    <div class="mood-pills">
+                        <div class="pill" data-mood="anxious" onclick="selectMood('anxious')">😰 Anxious</div>
+                        <div class="pill" data-mood="motivated" onclick="selectMood('motivated')">💪 Motivated</div>
+                        <div class="pill" data-mood="heartbroken" onclick="selectMood('heartbroken')">💔 Heartbroken</div>
+                        <div class="pill" data-mood="calm" onclick="selectMood('calm')">🧘 Calm</div>
+                        <div class="pill" data-mood="confused" onclick="selectMood('confused')">🤔 Confused</div>
+                        <div class="pill" data-mood="excited" onclick="selectMood('excited')">🎉 Excited</div>
+                        <div class="pill" data-mood="overwhelmed" onclick="selectMood('overwhelmed')">😓 Overwhelmed</div>
+                        <div class="pill" data-mood="hopeful" onclick="selectMood('hopeful')">🌟 Hopeful</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lifeArea">What do you need guidance on?</label>
+                    <select id="lifeArea">
+                        <option value="general">General Guidance</option>
+                        <option value="love">💕 Love & Relationships</option>
+                        <option value="money">💰 Money & Finances</option>
+                        <option value="healing">🌿 Healing & Self-Care</option>
+                        <option value="confidence">✨ Confidence & Self-Worth</option>
+                        <option value="boundaries">🛡️ Boundaries & Protection</option>
+                        <option value="career">💼 Career & Purpose</option>
+                        <option value="creativity">🎨 Creativity & Expression</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Event Input -->
+            <div class="event-input" id="eventInput" style="display: none;">
+                <div class="form-group">
+                    <label for="eventType">What's coming up?</label>
+                    <select id="eventType">
+                        <option value="">Select event type...</option>
+                        <option value="date">💕 First Date / Romantic Date</option>
+                        <option value="interview">💼 Job Interview</option>
+                        <option value="conflict">⚡ Difficult Conversation / Conflict</option>
+                        <option value="travel">✈️ Travel / Trip</option>
+                        <option value="presentation">🎤 Presentation / Performance</option>
+                        <option value="meeting">🤝 Important Meeting</option>
+                        <option value="celebration">🎉 Celebration / Party</option>
+                        <option value="medical">🏥 Medical Appointment</option>
+                        <option value="breakup">💔 Breakup / Ending</option>
+                        <option value="startup">🚀 New Beginning / Launch</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">When is it happening? (optional)</label>
+                    <input type="date" id="eventDate" min="2026-01-27">
+                </div>
+                <div class="form-group">
+                    <label for="eventDetails">Any details? (optional)</label>
+                    <textarea id="eventDetails" placeholder="E.g., 'Meeting my ex to return belongings' or 'Presenting my business idea to investors'"></textarea>
+                </div>
+            </div>
+
+            <!-- Compatibility Input -->
+            <div class="compatibility-input" id="compatibilityInput" style="display: none;">
+                <div class="form-group">
+                    <label for="personName">Their Name (optional):</label>
+                    <input type="text" id="personName" placeholder="e.g., Alex">
+                </div>
+                <div class="form-group">
+                    <label for="compatibilitySign">Their Zodiac Sign:</label>
+                    <select id="compatibilitySign">
+                        <option value="">Select their sign...</option>
+                        <option value="aries">♈ Aries</option>
+                        <option value="taurus">♉ Taurus</option>
+                        <option value="gemini">♊ Gemini</option>
+                        <option value="cancer">♋ Cancer</option>
+                        <option value="leo">♌ Leo</option>
+                        <option value="virgo">♍ Virgo</option>
+                        <option value="libra">♎ Libra</option>
+                        <option value="scorpio">♏ Scorpio</option>
+                        <option value="sagittarius">♐ Sagittarius</option>
+                        <option value="capricorn">♑ Capricorn</option>
+                        <option value="aquarius">♒ Aquarius</option>
+                        <option value="pisces">♓ Pisces</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="relationshipType">What's your relationship?</label>
+                    <select id="relationshipType">
+                        <option value="romantic">💕 Romantic Partner</option>
+                        <option value="friend">🤝 Friend</option>
+                        <option value="family">👨‍👩‍👧‍👦 Family Member</option>
+                        <option value="coworker">💼 Coworker</option>
+                        <option value="potential">✨ Potential Romantic Interest</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Premium Relationship/Sync Input -->
+            <div class="partner-input" id="partnerInput" style="display: none;">
+                <div class="form-group">
+                    <label for="partnerName">Partner's Name (optional):</label>
+                    <input type="text" id="partnerName" placeholder="e.g., Jordan">
+                </div>
+                <div class="form-group">
+                    <label for="partnerZodiac">Partner's Zodiac Sign:</label>
+                    <select id="partnerZodiac">
+                        <option value="">Select their sign...</option>
+                        <option value="aries">♈ Aries</option>
+                        <option value="taurus">♉ Taurus</option>
+                        <option value="gemini">♊ Gemini</option>
+                        <option value="cancer">♋ Cancer</option>
+                        <option value="leo">♌ Leo</option>
+                        <option value="virgo">♍ Virgo</option>
+                        <option value="libra">♎ Libra</option>
+                        <option value="scorpio">♏ Scorpio</option>
+                        <option value="sagittarius">♐ Sagittarius</option>
+                        <option value="capricorn">♑ Capricorn</option>
+                        <option value="aquarius">♒ Aquarius</option>
+                        <option value="pisces">♓ Pisces</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button class="toggle-btn" onclick="toggleCustomImage()">🎨 Customize Card Image</button>
+                <div id="customImageSection" style="display: none; margin-top: 15px;">
+                    <div class="form-group">
+                        <label for="customPrompt">Describe your vision:</label>
+                        <textarea id="customPrompt" placeholder="Example: soft pastel colors, sunset, field of flowers, dreamy atmosphere..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button id="generateBtn" onclick="generateReading()" style="margin-top: 20px;">
+                Reveal Your Reading
+            </button>
+        </div>
+
+        <div class="premium-section">
+            <h2 style="color: #ffd700; margin-bottom: 20px; margin-top: 10px;">✨ Premium Features</h2>
+            <div class="premium-options">
+                <div class="premium-option">
+                    <h3>📆 Relationship Sync Calendar</h3>
+                    <p>Get weekly relationship energy forecasts, conflict timing alerts ("This week isn't great for tough talks"), and best dates for important conversations.</p>
+                    <p class="price">$4.99/month</p>
+                </div>
+                <div class="premium-option">
+                    <h3>💕 Deep Relationship Report</h3>
+                    <p>Comprehensive compatibility analysis with communication strategies, conflict resolution techniques, and 6-month relationship forecast.</p>
+                    <p class="price">$7.99/report</p>
+                </div>
+                <div class="premium-option">
+                    <h3>🌟 Pro All-Access</h3>
+                    <p>Unlimited sync calendars for multiple relationships, all deep reports, custom AI images, and priority updates.</p>
+                    <p class="price">$19.99/year</p>
+                    <small style="color: #ffd700;">Best Value - Save 60%!</small>
+                </div>
+            </div>
+            <button style="margin-top: 20px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #1a0033;">
+                Upgrade to Pro ✨
+            </button>
+        </div>
+
+        <div id="results" class="results">
+            <div id="horoscopeCard" class="card">
+                <h2 id="signTitle"></h2>
+                <p class="date-range" id="dateRange"></p>
+                <div id="imageContainer"></div>
+                <div id="horoscopeText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedReadingType = 'daily';
+        let selectedMood = null;
+        let isPremiumUser = false;
+
+        const zodiacData = {
+            aries: { name: "Aries", symbol: "♈", dates: "March 21 - April 19", element: "Fire", planet: "Mars" },
+            taurus: { name: "Taurus", symbol: "♉", dates: "April 20 - May 20", element: "Earth", planet: "Venus" },
+            gemini: { name: "Gemini", symbol: "♊", dates: "May 21 - June 20", element: "Air", planet: "Mercury" },
+            cancer: { name: "Cancer", symbol: "♋", dates: "June 21 - July 22", element: "Water", planet: "Moon" },
+            leo: { name: "Leo", symbol: "♌", dates: "July 23 - August 22", element: "Fire", planet: "Sun" },
+            virgo: { name: "Virgo", symbol: "♍", dates: "August 23 - September 22", element: "Earth", planet: "Mercury" },
+            libra: { name: "Libra", symbol: "♎", dates: "September 23 - October 22", element: "Air", planet: "Venus" },
+            scorpio: { name: "Scorpio", symbol: "♏", dates: "October 23 - November 21", element: "Water", planet: "Pluto" },
+            sagittarius: { name: "Sagittarius", symbol: "♐", dates: "November 22 - December 21", element: "Fire", planet: "Jupiter" },
+            capricorn: { name: "Capricorn", symbol: "♑", dates: "December 22 - January 19", element: "Earth", planet: "Saturn" },
+            aquarius: { name: "Aquarius", symbol: "♒", dates: "January 20 - February 18", element: "Air", planet: "Uranus" },
+            pisces: { name: "Pisces", symbol: "♓", dates: "February 19 - March 20", element: "Water", planet: "Neptune" }
+        };
+
+        function selectReadingType(type) {
+            selectedReadingType = type;
+            
+            document.querySelectorAll('.reading-type-pills .pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+
+            // Hide all conditional inputs
+            document.getElementById('moodInput').style.display = 'none';
+            document.getElementById('eventInput').style.display = 'none';
+            document.getElementById('compatibilityInput').style.display = 'none';
+            document.getElementById('partnerInput').style.display = 'none';
+
+            // Show relevant inputs
+            if (type === 'mood') {
+                document.getElementById('moodInput').style.display = 'block';
+            } else if (type === 'event') {
+                document.getElementById('eventInput').style.display = 'block';
+            } else if (type === 'compatibility') {
+                document.getElementById('compatibilityInput').style.display = 'block';
+            } else if (type === 'relationship' || type === 'sync') {
+                document.getElementById('partnerInput').style.display = 'block';
+            }
+        }
+
+        function selectMood(mood) {
+            selectedMood = mood;
+            document.querySelectorAll('.mood-pills .pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            document.querySelector(`[data-mood="${mood}"]`).classList.add('active');
+        }
+
+        function toggleCustomImage() {
+            const section = document.getElementById('customImageSection');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        }
+
+        async function generateReading() {
+            const zodiac = document.getElementById('zodiac').value;
+            
+            if (!zodiac) {
+                alert('Please select your zodiac sign');
+                return;
+            }
+
+            // Validation based on reading type
+            if (selectedReadingType === 'mood' && !selectedMood) {
+                alert('Please select your current mood');
+                return;
+            }
+
+            if (selectedReadingType === 'event') {
+                const eventType = document.getElementById('eventType').value;
+                if (!eventType) {
+                    alert('Please select your event type');
+                    return;
+                }
+            }
+
+            if (selectedReadingType === 'compatibility') {
+                const compatSign = document.getElementById('compatibilitySign').value;
+                if (!compatSign) {
+                    alert('Please select the other person\'s zodiac sign');
+                    return;
+                }
+            }
+
+            if (selectedReadingType === 'relationship' || selectedReadingType === 'sync') {
+                if (!isPremiumUser) {
+                    if (confirm('This is a premium feature. Upgrade now?\n\n(Click OK to try demo version)')) {
+                        isPremiumUser = true;
+                    } else {
+                        return;
+                    }
+                }
+                const partnerSign = document.getElementById('partnerZodiac').value;
+                if (!partnerSign) {
+                    alert('Please select your partner\'s zodiac sign');
+                    return;
+                }
+            }
+
+            const btn = document.getElementById('generateBtn');
+            btn.disabled = true;
+            btn.textContent = 'Consulting the Stars...';
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+
+            await generateHoroscope(zodiac);
+
+            btn.disabled = false;
+            btn.textContent = 'Reveal Your Reading';
+            
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function generateHoroscope(zodiac) {
+            const data = zodiacData[zodiac];
+            
+            document.getElementById('signTitle').textContent = `${data.symbol} ${data.name}`;
+            document.getElementById('dateRange').textContent = data.dates;
+
+            const imageContainer = document.getElementById('imageContainer');
+            imageContainer.innerHTML = '<div class="loading">Creating your cosmic card...</div>';
+
+            const horoscopeContainer = document.getElementById('horoscopeText');
+            horoscopeContainer.innerHTML = '<div class="loading">Channeling your reading...</div>';
+
+            try {
+                let prompt = buildPrompt(data);
+                
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 1500,
+                        messages: [{ role: "user", content: prompt }]
+                    })
+                });
+
+                const result = await response.json();
+                const text = result.content[0].text;
+                
+                horoscopeContainer.innerHTML = formatReading(text);
+
+                // Skip image generation for now to keep it simple
+                imageContainer.innerHTML = '<div class="loading">✨ Your personalized card image would appear here in the full version</div>';
+
+            } catch (error) {
+                console.error('Error:', error);
+                horoscopeContainer.innerHTML = '<div class="error">Unable to generate reading. Please try again.</div>';
+            }
+        }
+
+        function buildPrompt(data) {
+            let prompt = '';
+
+            if (selectedReadingType === 'daily') {
+                prompt = `Generate a personalized daily horoscope for ${data.name}. Include today's energy, love, career, and lucky elements. 150-200 words.`;
+            }
+            else if (selectedReadingType === 'mood') {
+                const mood = selectedMood;
+                const lifeArea = document.getElementById('lifeArea').value;
+                prompt = `The user is a ${data.name} feeling ${mood} right now. They need guidance on ${lifeArea}. 
+
+Create a compassionate, personalized horoscope that:
+1. Acknowledges their ${mood} feeling
+2. Provides cosmic insights specific to ${data.name}'s energy
+3. Gives actionable advice for ${lifeArea}
+4. Offers comfort and empowerment
+5. Suggests practical steps they can take today
+
+Tone: Warm, understanding, empowering. 200-250 words.`;
+            }
+            else if (selectedReadingType === 'event') {
+                const eventType = document.getElementById('eventType').value;
+                const eventDate = document.getElementById('eventDate').value;
+                const eventDetails = document.getElementById('eventDetails').value;
+                
+                prompt = `The user is a ${data.name} preparing for: ${eventType}${eventDate ? ` on ${eventDate}` : ''}${eventDetails ? `. Details: ${eventDetails}` : ''}.
+
+Create a targeted horoscope that:
+1. Addresses this specific event
+2. Provides ${data.name}-specific strengths to leverage
+3. Warns of potential challenges
+4. Gives timing advice (best time of day, what to avoid)
+5. Includes a power mantra or affirmation for the event
+6. Practical tips for success
+
+Make it specific and actionable. 250-300 words.`;
+            }
+            else if (selectedReadingType === 'compatibility') {
+                const compatSign = document.getElementById('compatibilitySign').value;
+                const compatData = zodiacData[compatSign];
+                const personName = document.getElementById('personName').value || compatData.name;
+                const relType = document.getElementById('relationshipType').value;
+
+                prompt = `Quick compatibility snapshot for ${data.name} and ${compatData.name} as ${relType}.
+
+Provide:
+1. Compatibility score (X/10) with brief explanation
+2. Top 3 strengths of this pairing
+3. Top 2 challenges to watch for
+4. Communication tip specific to these signs
+5. One "conflict timing alert" - when to avoid tough conversations this week
+6. Best activity/date idea for this pairing
+
+Keep it concise, honest, and helpful. 200-250 words. Start with the compatibility score in a clear format.`;
+            }
+            else if (selectedReadingType === 'sync') {
+                const partnerSign = document.getElementById('partnerZodiac').value;
+                const partnerData = zodiacData[partnerSign];
+                const partnerName = document.getElementById('partnerName').value || partnerData.name;
+
+                prompt = `Weekly Relationship Sync Calendar for ${data.name} and ${partnerData.name}.
+
+Provide:
+1. Overall relationship energy forecast for this week (Jan 27 - Feb 2, 2026)
+2. Day-by-day energy ratings (Mon-Sun) with brief notes
+3. CONFLICT TIMING ALERTS: Specific days/times to avoid difficult conversations
+4. BEST DAYS for: deep talks, fun activities, intimacy, making decisions
+5. Weekly challenge to watch for
+6. Weekly opportunity to seize
+7. One relationship ritual/activity to try this week
+
+Format as a practical weekly guide. 300-350 words. Include specific days and times.`;
+            }
+            else if (selectedReadingType === 'relationship') {
+                const partnerSign = document.getElementById('partnerZodiac').value;
+                const partnerData = zodiacData[partnerSign];
+
+                prompt = `Deep Relationship Report for ${data.name} and ${partnerData.name}.
+
+Comprehensive analysis including:
+1. Overall compatibility score and chemistry breakdown
+2. Emotional compatibility 
+3. Communication styles and tips
+4. Conflict resolution strategies specific to these signs
+5. Long-term potential and growth areas
+6. Intimacy and connection insights
+7. 3-month relationship forecast
+8. Specific action steps to strengthen the bond
+
+Make it detailed, balanced, and actionable. 400-500 words.`;
+            }
+
+            return prompt;
+        }
+
+        function formatReading(text) {
+            // Special formatting for compatibility scores
+            if (selectedReadingType === 'compatibility' || selectedReadingType === 'sync') {
+                // Extract score if present
+                const scoreMatch = text.match(/(\d+)\/10/);
+                if (scoreMatch && selectedReadingType === 'compatibility') {
+                    const score = scoreMatch[1];
+                    return `
+                        <div class="compatibility-score">
+                            <div class="score-circle">${score}/10</div>
+                        </div>
+                        <div class="horoscope-text">${text.replace(/\n/g, '<br><br>')}</div>
+                    `;
+                }
+            }
+
+            // Add alert boxes for conflict warnings
+            let formatted = text.replace(/\n/g, '<br><br>');
+            
+            if (selectedReadingType === 'sync' || selectedReadingType === 'compatibility') {
+                // Highlight conflict warnings
+                formatted = formatted.replace(/(CONFLICT.*?ALERT.*?:.*?(?:<br><br>|$))/gi, 
+                    '<div class="alert-box warning">⚠️ $1</div>');
+                formatted = formatted.replace(/(BEST.*?DAY.*?:.*?(?:<br><br>|$))/gi, 
+                    '<div class="alert-box positive">✨ $1</div>');
+            }
+
+            return `<div class="horoscope-text">${formatted}</div>`;
+        }
+    </script>
+</body>
+</html>
