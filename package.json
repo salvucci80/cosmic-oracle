@@ -1,0 +1,8 @@
+{
+  "name": "cosmic-oracle-backend",
+  "version": "1.0.0",
+  "description": "Backend functions for Cosmic Oracle app",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
