@@ -1,8 +1,11 @@
+
 {
   "name": "cosmic-oracle-backend",
   "version": "1.0.0",
   "description": "Backend functions for Cosmic Oracle app",
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7"let currentSign = null;
+let currentReadingType = "daily"; // daily, truth, shadow, desire, power
+let isPaidUser = false;
   }
 }
