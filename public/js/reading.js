@@ -129,3 +129,4 @@ function unlockReading() {
   isPaidUser = true;
   renderReading(currentSign, currentReadingType);
 }
+
