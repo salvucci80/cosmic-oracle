@@ -53,6 +53,40 @@ function renderReading(sign, type) {
     showPaywall();
     return;
   }
+const darkReadingTypes = {
+  truth: {
+    freeTeaser: [
+      "There’s something you’ve been circling around but refusing to name.",
+      "You already know the truth — the resistance is the clue.",
+      "This pattern didn’t start today. It started the last time you ignored yourself."
+    ],
+    paid: true
+  },
+  shadow: {
+    freeTeaser: [
+      "A part of you wants something you’ve been taught to suppress.",
+      "Desire and fear are tangled here — and that’s not accidental.",
+      "This isn’t your weakness. It’s your shadow asking to be seen."
+    ],
+    paid: true
+  },
+  desire: {
+    freeTeaser: [
+      "Someone is responding to your energy more than you realize.",
+      "Your attraction field is active — but unfocused.",
+      "What you want is closer than you think, and that’s why it’s dangerous."
+    ],
+    paid: true
+  },
+  power: {
+    freeTeaser: [
+      "There’s a power imbalance here — and you feel it.",
+      "Someone benefits from your hesitation.",
+      "This dynamic only continues if you allow it."
+    ],
+    paid: true
+  }
+};
 
   // PAID or FREE FULL
   output.innerHTML = getFullReading(sign, type);
