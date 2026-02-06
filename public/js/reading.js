@@ -2,7 +2,40 @@
 let currentSign = null;
 let currentReadingType = "daily"; // daily, truth, shadow, desire, power
 let isPaidUser = false;
-
+const darkReadingTypes = {
+  truth: {
+    freeTeaser: [
+      "There’s something you’ve been circling around but refusing to name.",
+      "You already know the truth — the resistance is the clue.",
+      "This pattern didn’t start today. It started the last time you ignored yourself."
+    ],
+    paid: true
+  },
+  shadow: {
+    freeTeaser: [
+      "A part of you wants something you’ve been taught to suppress.",
+      "Desire and fear are tangled here — and that’s not accidental.",
+      "This isn’t your weakness. It’s your shadow asking to be seen."
+    ],
+    paid: true
+  },
+  desire: {
+    freeTeaser: [
+      "Someone is responding to your energy more than you realize.",
+      "Your attraction field is active — but unfocused.",
+      "What you want is closer than you think, and that’s why it’s dangerous."
+    ],
+    paid: true
+  },
+  power: {
+    freeTeaser: [
+      "There’s a power imbalance here — and you feel it.",
+      "Someone benefits from your hesitation.",
+      "This dynamic only continues if you allow it."
+    ],
+    paid: true
+  }
+};
 // ===== READING TYPES =====
 const readingTypes = {
   daily: { free: true, vibe: "mystical daily energy" },
@@ -46,60 +79,26 @@ function renderReading(sign, type) {
 
   // FREE + LOCKED FLOW
   if (!config.free && !isPaidUser) {
-    output.innerHTML = `
-      <p>${getFreeTeaser(sign, type)}</p>
-      <div class="sealed">🔒 This part of the message is sealed.</div>
-    `;
-    showPaywall();
-    return;
-  }
-const darkReadingTypes = {
-  truth: {
-    freeTeaser: [
-      "There’s something you’ve been circling around but refusing to name.",
-      "You already know the truth — the resistance is the clue.",
-      "This pattern didn’t start today. It started the last time you ignored yourself."
-    ],
-    paid: true
-  },
-  shadow: {
-    freeTeaser: [
-      "A part of you wants something you’ve been taught to suppress.",
-      "Desire and fear are tangled here — and that’s not accidental.",
-      "This isn’t your weakness. It’s your shadow asking to be seen."
-    ],
-    paid: true
-  },
-  desire: {
-    freeTeaser: [
-      "Someone is responding to your energy more than you realize.",
-      "Your attraction field is active — but unfocused.",
-      "What you want is closer than you think, and that’s why it’s dangerous."
-    ],
-    paid: true
-  },
-  power: {
-    freeTeaser: [
-      "There’s a power imbalance here — and you feel it.",
-      "Someone benefits from your hesitation.",
-      "This dynamic only continues if you allow it."
-    ],
-    paid: true
-  }
-};
+  const teasers = darkReadingTypes[type]?.freeTeaser || [];
+  const teaser =
+    teasers.length
+      ? teasers[Math.floor(Math.random() * teasers.length)]
+      : getFreeTeaser(sign, type);
+
+  output.innerHTML = `
+    <p>${teaser}</p>
+    <div class="sealed">🔒 This message continues, but it’s sealed.</div>
+  `;
+  showPaywall();
+  return;
+}
+
+  
+
 
   // PAID or FREE FULL
   output.innerHTML = getFullReading(sign, type);
   hidePaywall();
-}
-
-function getFreeTeaser(sign, type) {
-  const teasers = [
-    `${sign}, there’s a pattern you’ve been sensing — but not fully admitting yet.`,
-    `Something is pulling at your energy right now. You’re not imagining it.`,
-    `This message sharpens where you’ve been avoiding clarity.`
-  ];
-  return teasers[Math.floor(Math.random() * teasers.length)];
 }
 
 function getFullReading(sign, type) {
