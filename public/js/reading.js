@@ -1,4 +1,3 @@
-console.log("🔥 reading.js UPDATED VERSION LOADED");
 // ===== GLOBAL STATE =====
 let currentSign = null;
 let currentReadingType = "daily"; // daily, truth, shadow, desire, power
