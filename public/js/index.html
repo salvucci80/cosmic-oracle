@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Oracle - Personalized Astrology</title>
- <script src="/reading.js"></script>
+ <script src="reading.js"></script>
 
 
     <style>
@@ -645,141 +645,13 @@
             </button>
         </div>
 
-        <div class="premium-section">
-            <h2 style="color: #ffd700; margin-bottom: 20px; margin-top: 10px;">✨ Upgrade to Premium</h2>
-            <p style="color: #d4a5ff; text-align: center; margin-bottom: 25px; font-size: 1.1rem;">
-                Unlock unlimited AI-powered readings, compatibility analysis, and relationship insights!
-            </p>
-            <div class="premium-options">
-                <div class="premium-option" onclick="selectPlan('monthly')" data-plan="monthly">
-                    <h3>💫 Monthly Premium</h3>
-                    <p style="margin: 15px 0;">
-                        ✨ Unlimited AI-powered readings<br>
-                        🤝 Compatibility analysis<br>
-                        📆 Weekly relationship sync calendars<br>
-                        💕 Deep relationship reports<br>
-                        🎯 Event-specific guidance<br>
-                        😌 Mood-based personalized readings
-                    </p>
-                    <p class="price">$4.99<span style="font-size: 0.9rem; color: #d4a5ff;">/month</span></p>
-                </div>
-                <div class="premium-option" onclick="selectPlan('annual')" data-plan="annual">
-                    <h3>🌟 Annual Premium</h3>
-                    <p style="margin: 15px 0;">
-                        ✨ Everything in Monthly, PLUS:<br>
-                        🎨 AI-generated zodiac card images<br>
-                        📊 Yearly forecast reports<br>
-                        🎁 Early access to new features<br>
-                        💎 Priority customer support<br>
-                        📥 Export readings as PDF
-                    </p>
-                    <p class="price">$39.99<span style="font-size: 0.9rem; color: #d4a5ff;">/year</span></p>
-                    <p style="color: #4caf50; font-weight: bold; margin-top: 10px;">💰 Save 33% - Best Value!</p>
-                </div>
-            </div>
-            <button onclick="processUpgrade()" style="margin-top: 25px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #1a0033; font-size: 1.2rem;">
-                Continue to Payment →
-            </button>
-            <p style="text-align: center; color: #d4a5ff; font-size: 0.85rem; margin-top: 15px;">
-                🔒 Secure payment powered by Stripe • Cancel anytime • 7-day money-back guarantee
-            </p>
-        </div>
+        <div id="paywall" style="display:none">
+  <button onclick="unlockMonthly()">🔓 $4.99 / Month</button>
+  <button onclick="unlockYearly()">🌙 $39.99 / Year</button>
+</div>
 
-        <div id="results" class="results">
-            <div class="card">
-                <h2 id="signTitle"></h2>
-                <div id="cardDisplay"></div>
-                <div id="horoscopeText"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Upgrade Modal -->
-    <div id="upgradeModal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeUpgradeModal()">×</button>
-            <h2 style="color: #ffd700; margin-bottom: 20px;">🔒 Premium Feature</h2>
-            <p style="color: #d4a5ff; line-height: 1.8; margin-bottom: 20px;">
-                This reading type requires a Premium subscription. Upgrade now for unlimited access to:
-            </p>
-            <ul style="color: #d4a5ff; margin-left: 20px; margin-bottom: 25px; line-height: 1.8;">
-                <li>AI-powered personalized readings</li>
-                <li>Relationship compatibility analysis</li>
-                <li>Weekly sync calendars</li>
-                <li>Deep relationship reports</li>
-                <li>Unlimited daily readings</li>
-            </ul>
-            <button onclick="closeUpgradeModal(); document.querySelector('.premium-section').scrollIntoView({behavior: 'smooth'});" 
-                    style="background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #1a0033;">
-                See Premium Plans
-            </button>
-        </div>
-    </div>
 
     <script>
-        // User state management
-        let userState = {
-            isPremium: false,
-            readingsToday: 0,
-            maxFreeReadings: 3,
-            selectedPlan: null
-        };
-
-        let selectedReadingType = 'daily';
-        let selectedMood = null;
-
-        const zodiacData = {
-            aries: { name: "Aries", symbol: "♈", dates: "March 21 - April 19", element: "Fire", planet: "Mars" },
-            taurus: { name: "Taurus", symbol: "♉", dates: "April 20 - May 20", element: "Earth", planet: "Venus" },
-            gemini: { name: "Gemini", symbol: "♊", dates: "May 21 - June 20", element: "Air", planet: "Mercury" },
-            cancer: { name: "Cancer", symbol: "♋", dates: "June 21 - July 22", element: "Water", planet: "Moon" },
-            leo: { name: "Leo", symbol: "♌", dates: "July 23 - August 22", element: "Fire", planet: "Sun" },
-            virgo: { name: "Virgo", symbol: "♍", dates: "August 23 - September 22", element: "Earth", planet: "Mercury" },
-            libra: { name: "Libra", symbol: "♎", dates: "September 23 - October 22", element: "Air", planet: "Venus" },
-            scorpio: { name: "Scorpio", symbol: "♏", dates: "October 23 - November 21", element: "Water", planet: "Pluto" },
-            sagittarius: { name: "Sagittarius", symbol: "♐", dates: "November 22 - December 21", element: "Fire", planet: "Jupiter" },
-            capricorn: { name: "Capricorn", symbol: "♑", dates: "December 22 - January 19", element: "Earth", planet: "Saturn" },
-            aquarius: { name: "Aquarius", symbol: "♒", dates: "January 20 - February 18", element: "Air", planet: "Uranus" },
-            pisces: { name: "Pisces", symbol: "♓", dates: "February 19 - March 20", element: "Water", planet: "Neptune" }
-        };
-
-        // Initialize app
-        function init() {
-            loadUserState();
-            
-            // Check if user just completed payment
-            checkPaymentSuccess();
-            
-            updateUI();
-        }
-
-        function checkPaymentSuccess() {
-            // Check URL for success parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            if (urlParams.get('success') === 'true') {
-                // Payment successful! Activate premium
-                userState.isPremium = true;
-                saveUserState();
-                
-                // Show success message
-                alert('🎉 Welcome to Premium! All features are now unlocked!\n\nYour subscription is active and you have unlimited access to AI-powered readings.');
-                
-                // Clean up URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-                
-                // Scroll to top
-                window.scrollTo(0, 0);
-            }
-            
-            if (urlParams.get('canceled') === 'true') {
-                // Payment was canceled
-                alert('Payment was canceled. No charges were made.');
-                
-                // Clean up URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        }
 
         function loadUserState() {
             const stored = localStorage.getItem('cosmicOracleUser');

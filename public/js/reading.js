@@ -1,7 +1,6 @@
+let isPaidUser = localStorage.getItem("paidUser") === "true";
 // ===== GLOBAL STATE =====
-let currentSign = null;
-let currentReadingType = "daily"; // daily, truth, shadow, desire, power
-let isPaidUser = false;
+
 const darkReadingTypes = {
   truth: {
     freeTeaser: [
@@ -127,5 +126,12 @@ function hidePaywall() {
 function unlockReading() {
   isPaidUser = true;
   renderReading(currentSign, currentReadingType);
+}
+function unlockMonthly() {
+  window.location.href = "https://buy.stripe.com/9B68wO37jagQ1tf2m5cZa00";
+}
+
+function unlockYearly() {
+  window.location.href = "https://buy.stripe.com/6oU00i9vH4Ww9ZL8KtcZa01";
 }
 
