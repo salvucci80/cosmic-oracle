@@ -7,23 +7,23 @@
 </head>
 <body>
 
-<h1>Cosmic Oracle</h1>
+  <div class="app">
+    <h1>Cosmic Oracle</h1>
 
-<div id="controls">
-    <button onclick="renderReading('Aries', 'daily')">Aries</button>
-    <button onclick="renderReading('Aries', 'truth')">Truth</button>
-</div>
+    <div id="controls">
+      <button onclick="renderReading('Aries', 'daily')">Daily</button>
+      <button onclick="renderReading('Aries', 'truth')">Truth</button>
+    </div>
 
-<div id="output"></div>
+    <div id="output"></div>
 
-<div id="paywall" style="display:none">
-    <button onclick="unlockMonthly()">🔓 $4.99 / Month</button>
-    <button onclick="unlockYearly()">🌙 $39.99 / Year</button>
-</div>
+    <div id="paywall" style="display:none">
+      <button onclick="unlockMonthly()">🔓 $4.99 / Month</button>
+      <button onclick="unlockYearly()">🌙 $39.99 / Year</button>
+    </div>
+  </div>
 
-<script src="./reading.js"></script>
-
-
-
+  <script src="./reading.js"></script>
 </body>
+
 </html>
