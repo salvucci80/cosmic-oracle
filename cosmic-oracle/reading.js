@@ -9,8 +9,9 @@ function renderReading(sign, type) {
     output.innerHTML = `
       <p>This truth wants to be revealed… but it’s sealed.</p>
     `;
-    document.getElementById("paywall").style.display = "block";
-    return;
+    const paywall = document.getElementById("paywall");
+if (paywall) paywall.style.display = "block";
+
   }
 
   document.getElementById("paywall").style.display = "none";
