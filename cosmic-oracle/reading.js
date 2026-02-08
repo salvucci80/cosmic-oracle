@@ -4,21 +4,30 @@ let isPaidUser = localStorage.getItem("paidUser") === "true";
 
 function renderReading(sign, type) {
   const output = document.getElementById("output");
+  const paywall = document.getElementById("paywall");
+
+  if (!output) return;
 
   if (type !== "daily" && !isPaidUser) {
     output.innerHTML = `
-      <p>This truth wants to be revealed… but it’s sealed.</p>
+      <p>
+        This message isn’t blocked — it’s withheld.
+        <br><br>
+        When you unlock it, you won’t unsee what it shows.
+      </p>
     `;
-    const paywall = document.getElementById("paywall");
-if (paywall) paywall.style.display = "block";
-
+    if (paywall) paywall.style.display = "block";
+    return;
   }
 
-  document.getElementById("paywall").style.display = "none";
+  if (paywall) paywall.style.display = "none";
 
   output.innerHTML = `
     <h2>${sign} — ${type.toUpperCase()}</h2>
-    <p>This is a full ${type} reading. Dark. Direct. Intimate.</p>
+    <p>
+      This isn’t random. This is the part of the reading
+      most people aren’t ready to hear.
+    </p>
   `;
 }
 
