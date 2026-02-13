@@ -1,8 +1,8 @@
 * {
   outline: 2px solid lime !important;
 }
-
-  body {
+ body {
+  
   min-height: 100vh;
   font-family: 'Georgia', serif;
   background: radial-gradient(circle at top, #1b1029, #05010a 70%);
