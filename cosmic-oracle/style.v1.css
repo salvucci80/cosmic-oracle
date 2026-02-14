@@ -3,13 +3,32 @@
 }
  body {
   
+  body {
   min-height: 100vh;
   font-family: 'Georgia', serif;
-  background: radial-gradient(circle at top, #1b1029, #05010a 70%);
+  background: radial-gradient(circle at top, #2a1440 0%, #0b0514 60%, #05010a 100%);
   color: #e6dff1;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+body::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: transparent url("https://www.transparenttextures.com/patterns/stardust.png");
+  opacity: 0.2;
+  animation: drift 60s linear infinite;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-200px, -200px); }
+}
+
 }
 
 /* ===== RESET ===== */
@@ -31,13 +50,16 @@ body {
 
 /* ===== MAIN CONTAINER ===== */
 .app {
-  width: 100%;
-  max-width: 420px;
-  padding: 28px;
-  background: rgba(15, 8, 30, 0.85);
-  border-radius: 16px;
-  box-shadow: 0 0 40px rgba(186, 120, 255, 0.25);
+  background: rgba(20, 10, 35, 0.9);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
   text-align: center;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1.2s ease-in-out;
+}@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== TITLE ===== */
@@ -56,23 +78,30 @@ h1 {
   margin-bottom: 20px;
 }
 
-#controls button {
-  flex: 1;
-  padding: 10px 12px;
-  background: linear-gradient(135deg, #3b1d5f, #7a3cff);
-  border: none;
-  border-radius: 999px;
-  color: #fff;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: all 0.25s ease;
+select {
+  padding: 8px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  background: #1b1029;
+  color: white;
+  border: 1px solid #7b2cbf;
 }
 
-#controls button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 14px rgba(160, 90, 255, 0.6);
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #c77dff;
 }
+.reading {
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.reading.show {
+  opacity: 1;
+}
+
 
 /* ===== OUTPUT ===== */
 #output {

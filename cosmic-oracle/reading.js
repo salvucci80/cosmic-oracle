@@ -29,7 +29,10 @@ function renderReading(sign, type) {
       most people aren’t ready to hear.
     </p>
   `;
-}
+}output.classList.remove("show");
+void output.offsetWidth; // forces reflow
+output.classList.add("show");
+
 
 function unlockMonthly() {
   window.location.href = "PASTE_MONTHLY_STRIPE_LINK";
