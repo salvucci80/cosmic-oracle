@@ -29,7 +29,8 @@ async function renderReading() {
     output.innerHTML = "<p>Consulting the cosmos...</p>";
 
     try {
-        const response = await fetch("http://localhost:3000/api/reading", {
+        const response = await fetch("/api/reading", {
+
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ sign, type: currentType })
