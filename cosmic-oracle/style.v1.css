@@ -47,6 +47,53 @@ body {
   justify-content: center;
   align-items: center;
 }
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    text-align: center;
+}
+
+.oracle-box {
+    margin: 50px auto;
+    padding: 30px;
+    max-width: 500px;
+    border: 2px solid #39ff14;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #39ff14;
+}
+
+select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #111;
+    color: white;
+}
+
+.tabs button:hover {
+    box-shadow: 0 0 10px #39ff14;
+}
+
+.active {
+    background: #39ff14;
+    color: black;
+}
+
+.reading {
+    margin-top: 20px;
+    padding: 15px;
+    min-height: 100px;
+}
 
 /* ===== MAIN CONTAINER ===== */
 .app {

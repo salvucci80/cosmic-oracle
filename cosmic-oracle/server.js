@@ -1,7 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const Anthropic = require("@anthropic-ai/sdk");
+const Anthropic = require("@anthropic-ai/sdk");const path = require("path");
+
+app.use(express.static(path.join(__dirname)));
+
 
 const app = express();
 app.use(cors());
@@ -35,6 +38,9 @@ Avoid generic fluff.
     console.error(error);
     res.status(500).json({ error: "Something went wrong" });
   }
+});
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(3000, () => {
