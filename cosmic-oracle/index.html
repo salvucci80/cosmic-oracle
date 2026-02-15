@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Cosmic Oracle</title>
-   <link rel="stylesheet" href="style.v1.css">
 
+<head>
+    <meta charset="UTF-8">
+    <title>Cosmic Oracle</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <div class="app">
-    <h1>Cosmic Oracle</h1>
-<select id="signSelect">
-  <option value="Aries">Aries</option>
-  <option value="Taurus">Taurus</option>
-  <option value="Gemini">Gemini</option>
-  <option value="Cancer">Cancer</option>
-  <option value="Leo">Leo</option>
-  <option value="Virgo">Virgo</option>
-  <option value="Libra">Libra</option>
-  <option value="Scorpio">Scorpio</option>
-  <option value="Sagittarius">Sagittarius</option>
-  <option value="Capricorn">Capricorn</option>
-  <option value="Aquarius">Aquarius</option>
-  <option value="Pisces">Pisces</option>
-</select>
+<h1>Cosmic Oracle</h1>
 
-    <div id="controls">
-      <button onclick="renderReading('Aries', 'daily')">Daily</button>
-      <button onclick="renderReading('Aries', 'truth')">Truth</button>
+<div class="oracle-box">
+
+    <select id="signSelect">
+        <option value="Aries">Aries</option>
+        <option value="Taurus">Taurus</option>
+        <option value="Gemini">Gemini</option>
+        <option value="Cancer">Cancer</option>
+        <option value="Leo">Leo</option>
+        <option value="Virgo">Virgo</option>
+        <option value="Libra">Libra</option>
+        <option value="Scorpio">Scorpio</option>
+        <option value="Sagittarius">Sagittarius</option>
+        <option value="Capricorn">Capricorn</option>
+        <option value="Aquarius">Aquarius</option>
+        <option value="Pisces">Pisces</option>
+    </select>
+
+    <div class="tabs">
+        <button onclick="selectType('daily')" id="dailyTab" class="active">Daily</button>
+        <button onclick="selectType('truth')" id="truthTab">Truth</button>
     </div>
 
     <div id="output" class="reading"></div>
 
     <div id="paywall" style="display:none">
-      <button onclick="unlockMonthly()">🔓 $4.99 / Month</button>
-      <button onclick="unlockYearly()">🌙 $39.99 / Year</button>
+        <button onclick="unlockMonthly()">🔓 $4.99 / Month</button>
+        <button onclick="unlockYearly()">🌙 $39.99 / Year</button>
     </div>
-  </div>
 
-  <script src="./reading.js"></script>
+</div>
+
+<script src="reading.js"></script>
+
 </body>
-
-
 </html>
+

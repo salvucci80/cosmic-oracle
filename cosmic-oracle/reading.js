@@ -1,43 +1,50 @@
 console.log("🔥 reading.js loaded");
 
 let isPaidUser = localStorage.getItem("paidUser") === "true";
+let currentType = "daily";
 
-function renderReading(sign, type) {
-  const output = document.getElementById("output");
-  const paywall = document.getElementById("paywall");
+function selectType(type) {
+    currentType = type;
 
-  if (!output) return;
+    document.getElementById("dailyTab").classList.remove("active");
+    document.getElementById("truthTab").classList.remove("active");
 
-  if (type !== "daily" && !isPaidUser) {
-    output.innerHTML = `
-      <p>
-        This message isn’t blocked — it’s withheld.
-        <br><br>
-        When you unlock it, you won’t unsee what it shows.
-      </p>
-    `;
-    if (paywall) paywall.style.display = "block";
-    return;
-  }
+    document.getElementById(type + "Tab").classList.add("active");
 
-  if (paywall) paywall.style.display = "none";
-
-  output.innerHTML = `
-    <h2>${sign} — ${type.toUpperCase()}</h2>
-    <p>
-      This isn’t random. This is the part of the reading
-      most people aren’t ready to hear.
-    </p>
-  `;
-}output.classList.remove("show");
-void output.offsetWidth; // forces reflow
-output.classList.add("show");
-
-
-function unlockMonthly() {
-  window.location.href = "PASTE_MONTHLY_STRIPE_LINK";
+    renderReading();
 }
 
-function unlockYearly() {
-  window.location.href = "PASTE_YEARLY_STRIPE_LINK";
+async function renderReading() {
+    const sign = document.getElementById("signSelect").value;
+    const output = document.getElementById("output");
+    const paywall = document.getElementById("paywall");
+
+    if (currentType !== "daily" && !isPaidUser) {
+        output.innerHTML = `<p>This truth wants to be revealed… but it’s sealed.</p>`;
+        paywall.style.display = "block";
+        return;
+    }
+
+    paywall.style.display = "none";
+    output.innerHTML = "<p>Consulting the cosmos...</p>";
+
+    try {
+        const response = await fetch("http://localhost:3000/api/reading", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sign, type: currentType })
+        });
+
+        const data = await response.json();
+
+        output.innerHTML = `
+            <h2>${sign} — ${currentType.toUpperCase()}</h2>
+            <p>${data.text}</p>
+        `;
+    } catch (err) {
+        output.innerHTML = "<p>The cosmos are unstable. Try again.</p>";
+    }
 }
+
+document.addEventListener("DOMContentLoaded", renderReading);
+
