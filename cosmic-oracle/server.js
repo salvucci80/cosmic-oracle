@@ -4,12 +4,15 @@ require("dotenv").config();
 const Anthropic = require("@anthropic-ai/sdk");
 const path = require("path");
 
-const app = express();   // ✅ app created FIRST
+const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname)); // ✅ now safe to use app
+app.use(express.static(__dirname));
 
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
 
 app.post("/api/reading", async (req, res) => {
   try {
