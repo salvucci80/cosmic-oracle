@@ -25,26 +25,25 @@ async function renderReading() {
         return;
     }
 
-    paywall.style.display = "none";
-    output.innerHTML = "<p>Consulting the cosmos...</p>";
+paywall.style.display = "none";
+output.innerHTML = "<p>Consulting the cosmos...</p>";
 
-    try {
-        const response = await fetch("/api/reading", {
+try {
+    const response = await fetch("/api/reading", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sign, type: currentType })
+    });
 
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sign, type: currentType })
-        });
+    const data = await response.json();
 
-        const data = await response.json();
-
-        output.innerHTML = `
-            <h2>${sign} — ${currentType.toUpperCase()}</h2>
-            <p>${data.text}</p>
-        `;
-    } catch (err) {
-        output.innerHTML = "<p>The cosmos are unstable. Try again.</p>";
-    }
+    output.innerHTML = `
+        <h2>${sign} — ${currentType.toUpperCase()}</h2>
+        <p>${data.text}</p>
+    `;
+} catch (err) {
+    output.innerHTML = "<p>The cosmos are unstable. Try again.</p>";
+}
 }
 
 document.addEventListener("DOMContentLoaded", renderReading);
