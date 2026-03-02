@@ -1,161 +1,111 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   min-height: 100vh;
   font-family: 'Georgia', serif;
   background: radial-gradient(circle at top, #2a1440 0%, #0b0514 60%, #05010a 100%);
-  color: #e6dff1;
+  color: #f3eaff;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  position: relative;
-}
-
-body:before {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: transparent url("https://www.transparenttextures.com/patterns/stardust.png");
-  opacity: 0.2;
-  animation: drift 60s linear infinite;
-}
-
-@keyframes drift {
-  from { transform: translate(0, 0); }
-  to { transform: translate(-200px, -200px); }
 }
 
 .oracle-box {
-    margin: 50px auto;
-    padding: 30px;
-    max-width: 500px;
-    border: 2px solid #39ff14;
-    border-radius: 15px;
-    box-shadow: 0 0 20px #39ff14;
+  width: 420px;
+  padding: 35px;
+  background: rgba(20, 10, 35, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(138, 43, 226, 0.7);
+  backdrop-filter: blur(12px);
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 18px rgba(200, 150, 255, 0.6);
 }
 
 select {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    margin-bottom: 20px;
-}
-
-.tabs button {
-    padding: 10px 20px;
-    margin: 5px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #111;
-    color: white;
-}
-
-.tabs button:hover {
-    box-shadow: 0 0 10px #39ff14;
-}
-
-.active {
-    background: #39ff14;
-    color: black;
-}
-
-.reading {
-    margin-top: 20px;
-    padding: 15px;
-    min-height: 100px;
-}
-
-/* ===== MAIN CONTAINER ===== */
-.app {
-  background: rgba(20, 10, 35, 0.9);
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
-  text-align: center;
-  backdrop-filter: blur(10px);
-  animation: fadeIn 1.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== TITLE ===== */
-h1 {
-  font-size: 2.1rem;
-  letter-spacing: 1px;
-  margin-bottom: 18px;
-  text-shadow: 0 0 12px rgba(190, 140, 255, 0.6);
-}
-
-/* ===== CONTROLS ===== */
-#controls {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #1b1029;
+  color: white;
   margin-bottom: 20px;
 }
 
-select {
-  padding: 8px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  background: #1b1029;
-  color: white;
-  border: 1px solid #7b2cbf;
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
+.tabs button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2a1440, #3b1c5a);
+  color: #fff;
+  transition: all 0.25s ease;
+}
 
-button:hover {
-  transform: scale(1.05);
+.tabs button:hover {
+  transform: translateY(-2px);
   box-shadow: 0 0 15px #c77dff;
 }
+
+.active {
+  background: linear-gradient(135deg, #ff3c88, #b100ff);
+}
+
 .reading {
-  margin-top: 20px;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-.reading.show {
-  opacity: 1;
-}
-
-
-/* ===== OUTPUT ===== */
-#output {
-  margin-top: 18px;
-  padding: 18px;
-  background: rgba(10, 5, 20, 0.75);
-  border-radius: 12px;
+  min-height: 110px;
+  margin-top: 15px;
   font-size: 0.95rem;
   line-height: 1.5;
-  box-shadow: inset 0 0 20px rgba(120, 70, 200, 0.25);
+  padding: 15px;
+  background: rgba(10, 5, 20, 0.8);
+  border-radius: 12px;
 }
 
-/* ===== PAYWALL ===== */
 #paywall {
-  margin-top: 22px;
+  margin-top: 20px;
 }
 
 #paywall button {
   width: 100%;
   margin-top: 10px;
   padding: 12px;
-  background: linear-gradient(135deg, #ff3c88, #b100ff);
-  border: none;
   border-radius: 999px;
-  color: #fff;
-  font-size: 0.9rem;
+  border: none;
   cursor: pointer;
-  letter-spacing: 0.04em;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #ff3c88, #b100ff);
+  color: white;
   transition: all 0.25s ease;
 }
 
 #paywall button:hover {
-  box-shadow: 0 0 20px rgba(255, 80, 180, 0.8);
   transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255, 80, 180, 0.8);
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}.reading h2 {
+  margin-bottom: 10px;
+  color: #ff9dff;
+}
