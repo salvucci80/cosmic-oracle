@@ -81,9 +81,9 @@ if (!isPaidUser && currentType === "daily") {
 document.addEventListener("DOMContentLoaded", renderReading);
 // 💳 STRIPE REDIRECTS
 function unlockMonthly() {
-    window.location.href = "https://buy.stripe.com/dRm7sNfnebJNa0j9p8fAc02";
+    window.location.href = "https://buy.stripe.com/9B6fZjcb26pt1tN0SCfAc05";
 }
 
 function unlockYearly() {
-    window.location.href = "https://buy.stripe.com/aFaeVf5ME6pta0j44OfAc01";
+    window.location.href = "https://buy.stripe.com/7sYdRbejaaFJa0j44OfAc04";
 }
