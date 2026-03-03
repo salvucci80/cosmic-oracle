@@ -6,7 +6,12 @@ function canAccessDaily() {
     if (lastAccess === today) {
         return false;
     }
+// 🔓 Check for Stripe success redirect
+const params = new URLSearchParams(window.location.search);
 
+if (params.get("success") === "true") {
+    localStorage.setItem("paidUser", "true");
+}
     localStorage.setItem("lastFreeReading", today);
     return true;
 }
