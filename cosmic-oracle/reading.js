@@ -1,5 +1,15 @@
 console.log("🔥 reading.js loaded");
+function canAccessDaily() {
+    const lastAccess = localStorage.getItem("lastFreeReading");
+    const today = new Date().toDateString();
 
+    if (lastAccess === today) {
+        return false;
+    }
+
+    localStorage.setItem("lastFreeReading", today);
+    return true;
+}
 let isPaidUser = localStorage.getItem("paidUser") === "true";
 let currentType = "daily";
 
@@ -30,7 +40,18 @@ async function renderReading() {
         paywall.style.display = "block"; // show upsell
         return; // ⛔ STOP here
     }
-
+// FREE DAILY LIMIT
+if (!isPaidUser && currentType === "daily") {
+    if (!canAccessDaily()) {
+        output.innerHTML = `
+            <h2>✨ Daily Reading Used</h2>
+            <p>You’ve already consulted the cosmos today.</p>
+            <p>Upgrade for unlimited access.</p>
+        `;
+        paywall.style.display = "block";
+        return;
+    }
+}
     paywall.style.display = "none";
     output.innerHTML = "<p>Consulting the cosmos...</p>";
 
@@ -53,3 +74,11 @@ async function renderReading() {
 }
 
 document.addEventListener("DOMContentLoaded", renderReading);
+// 💳 STRIPE REDIRECTS
+function unlockMonthly() {
+    window.location.href = "https://buy.stripe.com/dRm7sNfnebJNa0j9p8fAc02";
+}
+
+function unlockYearly() {
+    window.location.href = "https://buy.stripe.com/aFaeVf5ME6pta0j44OfAc01";
+}
