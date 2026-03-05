@@ -113,3 +113,7 @@ filter: blur(6px);
 margin-top:15px;
 opacity:0.8;
 }
+.blurred{
+filter: blur(6px);
+margin-top:10px;
+}
