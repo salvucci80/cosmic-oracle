@@ -2,7 +2,18 @@ console.log("🔥 reading.js loaded");
 function canAccessDaily() {
     const lastAccess = localStorage.getItem("lastFreeReading");
     const today = new Date().toDateString();
+function getLifePathNumber(birthdate) {
+    if(!birthdate) return null;
 
+    let digits = birthdate.replaceAll("-", "").split("").map(Number);
+    let sum = digits.reduce((a,b)=>a+b,0);
+
+    while (sum > 9) {
+        sum = sum.toString().split("").map(Number).reduce((a,b)=>a+b,0);
+    }
+
+    return sum;
+}
     if (lastAccess === today) {
         return false;
     }
@@ -18,8 +29,9 @@ if (params.get("success") === "true") {
 let isPaidUser = localStorage.getItem("paidUser") === "true";
 let currentType = "daily";
 
-function selectType(type) {
-    currentType = type;
+async (params) => {
+    
+}    ;currentType = "type";
 
     document.getElementById("dailyTab").classList.remove("active");
     document.getElementById("truthTab").classList.remove("active");
@@ -27,60 +39,69 @@ function selectType(type) {
     document.getElementById(type + "Tab").classList.add("active");
 
     renderReading();
-}
-
 async function renderReading() {
+
     const sign = document.getElementById("signSelect").value;
+    const birthdate = document.getElementById("birthdate").value;
+
     const output = document.getElementById("output");
     const paywall = document.getElementById("paywall");
 
-    // 🔒 LOCKED CONTENT CHECK
-    if (currentType !== "daily" && !isPaidUser) {
-        output.innerHTML = `
-            <h2>🔒 Truth Locked</h2>
-            <p>This revelation isn't for casual stargazers.</p>
-            <p>Unlock to see what the universe is withholding.</p>
-        `;
-        
-        paywall.style.display = "block"; // show upsell
-        return; // ⛔ STOP here
-    }
-// FREE DAILY LIMIT
-if (!isPaidUser && currentType === "daily") {
-    if (!canAccessDaily()) {
-        output.innerHTML = `
-            <h2>✨ Daily Reading Used</h2>
-            <p>You’ve already consulted the cosmos today.</p>
-            <p>Upgrade for unlimited access.</p>
-        `;
-        paywall.style.display = "block";
-        return;
-    }
-}
-    paywall.style.display = "none";
-    output.innerHTML = "<p>Consulting the cosmos...</p>";
-
     try {
+
+        output.innerHTML = "<p>Consulting the cosmos...</p>";
+
         const response = await fetch("/api/reading", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sign, type: currentType })
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify({ sign })
         });
 
         const data = await response.json();
 
-        output.innerHTML = `
-            <h2>${sign} — ${currentType.toUpperCase()}</h2>
-            <p>${data.text}</p>
-        `;
+        const lifePath = getLifePathNumber(birthdate);
+
+        let fullReading = data.text;
+        let preview = fullReading.split(".").slice(0,3).join(".") + ".";
+
+        if(!isPaidUser){
+
+            output.innerHTML = `
+            <h2>${sign} — DAILY READING</h2>
+
+            <p>${preview}</p>
+
+            <h3>🔢 Numerology</h3>
+            <p>Your Life Path Number is ${lifePath}. It influences your destiny.</p>
+
+            <div class="blurred">
+            The deeper cosmic truth remains hidden...
+            </div>
+            `;
+
+            paywall.style.display = "block";
+
+        } else {
+
+            output.innerHTML = `
+            <h2>${sign} — FULL COSMIC READING</h2>
+
+            <p>${fullReading}</p>
+
+            <h3>🔢 Numerology</h3>
+            <p>Your Life Path Number is ${lifePath}. This number represents the energetic blueprint guiding your life's path.</p>
+            `;
+
+            paywall.style.display = "none";
+        }
+
     } catch (err) {
+
         output.innerHTML = "<p>The cosmos are unstable. Try again.</p>";
+
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Do nothing on load
-});
 // 💳 STRIPE REDIRECTS
 function unlockMonthly() {
     window.location.href = "https://buy.stripe.com/9B6fZjcb26pt1tN0SCfAc05";
