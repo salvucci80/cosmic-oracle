@@ -138,9 +138,8 @@ try {
 }
 
 
-
 ///////////////////////////
-// STAR BACKGROUND
+// COSMIC STAR BACKGROUND
 ///////////////////////////
 
 const canvas = document.getElementById("stars");
@@ -151,14 +150,17 @@ canvas.height = window.innerHeight;
 
 let stars = [];
 
-for (let i = 0; i < 150; i++) {
+for (let i = 0; i < 180; i++) {
+
     stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        speed: Math.random() * 0.4,
-        opacity: Math.random()
+        size: Math.random() * 2.5,
+        speed: Math.random() * 0.15,
+        opacity: Math.random(),
+        twinkle: Math.random() * 0.02
     });
+
 }
 
 function animateStars(){
@@ -167,10 +169,16 @@ function animateStars(){
 
     stars.forEach(star => {
 
+        star.opacity += star.twinkle;
+
+        if (star.opacity > 1 || star.opacity < 0.1){
+            star.twinkle *= -1;
+        }
+
         ctx.globalAlpha = star.opacity;
 
         ctx.beginPath();
-        ctx.arc(star.x,star.y,star.size,0,Math.PI*2);
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI*2);
         ctx.fillStyle = "white";
         ctx.fill();
 
