@@ -16,6 +16,7 @@ if (params.get("success") === "yearly") {
 
 let isPaidUser = userTier !== "free";
 
+
 // Numerology calculator
 function calculateLifePath(dateString) {
 
@@ -29,6 +30,7 @@ function calculateLifePath(dateString) {
 
     return sum;
 }
+
 
 // Free daily limiter
 function canAccessDaily() {
@@ -44,16 +46,6 @@ function canAccessDaily() {
     return true;
 }
 
-// Switch tabs
-function selectType(type) {
-
-    currentType = type;
-
-    document.getElementById("dailyTab").classList.remove("active");
-    document.getElementById("truthTab").classList.remove("active");
-
-    document.getElementById(type + "Tab").classList.add("active");
-}
 
 // Main reading function
 async function getReading() {
@@ -65,7 +57,7 @@ const paywall = document.getElementById("paywall");
 
 let numerologyText = "";
 
-// Numerology block
+// Numerology
 if (birthdate) {
 
     const lifePath = calculateLifePath(birthdate);
@@ -78,51 +70,8 @@ if (birthdate) {
     </div>
     `;
 }
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 
-let stars = [];
-
-for (let i = 0; i < 150; i++) {
-
-    stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2,
-        speed: Math.random() * 0.4,
-        opacity: Math.random()
-    });
-
-}
-
-function animateStars(){
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    stars.forEach(star => {
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-
-        ctx.fillStyle = "rgba(255,255,255," + star.opacity + ")";
-        ctx.fill();
-
-        star.y += star.speed;
-
-        if(star.y > canvas.height){
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
-        }
-
-    });
-
-    requestAnimationFrame(animateStars);
-}
-
-animateStars();
 // Truth lock
 if (currentType === "truth" && !isPaidUser) {
 
@@ -135,6 +84,7 @@ if (currentType === "truth" && !isPaidUser) {
     paywall.style.display = "block";
     return;
 }
+
 
 // Free daily limit
 if (!isPaidUser && currentType === "daily") {
@@ -184,4 +134,55 @@ try {
     output.innerHTML = "<p>The cosmos are unstable. Try again.</p>";
 
 }
+
 }
+
+
+
+///////////////////////////
+// STAR BACKGROUND
+///////////////////////////
+
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for (let i = 0; i < 150; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speed: Math.random() * 0.4,
+        opacity: Math.random()
+    });
+}
+
+function animateStars(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    stars.forEach(star => {
+
+        ctx.globalAlpha = star.opacity;
+
+        ctx.beginPath();
+        ctx.arc(star.x,star.y,star.size,0,Math.PI*2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+
+        star.y += star.speed;
+
+        if(star.y > canvas.height){
+            star.y = 0;
+        }
+
+    });
+
+    requestAnimationFrame(animateStars);
+}
+
+animateStars();
