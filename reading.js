@@ -1,16 +1,64 @@
 console.log("🔮 reading.js loaded");
 
-// Detect Stripe success redirect
 const params = new URLSearchParams(window.location.search);
-if (params.get("success") === "true") {
-    localStorage.setItem("paidUser", "true");
-}
 
-let isPaidUser = localStorage.getItem("paidUser") === "true";
+let userTier = localStorage.getItem("tier") || "free";
 let currentType = "daily";
 
-// Free reading limiter
+// Stripe success detection
+if (params.get("success") === "monthly") {
+    localStorage.setItem("tier", "monthly");
+}
+
+if (params.get("success") === "yearly") {
+    localStorage.setItem("tier", "yearly");
+}
+
+let isPaidUser = userTier !== "free";
+
+// Numerology calculator
+function calculateLifePath(dateString) {
+const numerologyMeanings = {
+
+1:"Leaders and pioneers. You thrive when creating your own path.",
+
+2:"Diplomats and peacemakers. Your power lies in harmony and intuition.",
+
+3:"Creators and communicators. Expression and creativity are your gifts.",
+
+4:"Builders of stability. Discipline and structure guide your destiny.",
+
+5:"Adventurers and explorers. Freedom and change fuel your spirit.",
+
+6:"Caretakers and healers. Love and responsibility shape your journey.",
+
+7:"Seekers of truth. Wisdom, intuition, and spirituality guide you.",
+
+8:"Power builders. You are aligned with success, ambition, and influence.",
+
+9:"Humanitarians. Compassion and global awareness define your path.",
+
+11:"Master intuitive. You carry spiritual insight and deep awareness.",
+
+22:"Master builder. You are capable of creating lasting impact.",
+
+33:"Master teacher. Compassion and healing are your greatest strengths."
+
+};
+    const numbers = dateString.replaceAll("-", "").split("").map(Number);
+
+    let sum = numbers.reduce((a,b) => a + b,0);
+
+    while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
+        sum = sum.toString().split("").map(Number).reduce((a,b)=>a+b,0);
+    }
+
+    return sum;
+}
+
+// Free daily limiter
 function canAccessDaily() {
+
     const lastAccess = localStorage.getItem("lastFreeReading");
     const today = new Date().toDateString();
 
@@ -24,6 +72,7 @@ function canAccessDaily() {
 
 // Switch tabs
 function selectType(type) {
+
     currentType = type;
 
     document.getElementById("dailyTab").classList.remove("active");
@@ -32,43 +81,77 @@ function selectType(type) {
     document.getElementById(type + "Tab").classList.add("active");
 }
 
-// Generate reading when button pressed
+// Main reading function
 async function getReading() {
 
-    const sign = document.getElementById("signSelect").value;
-    const output = document.getElementById("output");
-    const paywall = document.getElementById("paywall");
+const sign = document.getElementById("signSelect").value;
+const birthdate = document.getElementById("birthdate").value;
+const output = document.getElementById("output");
+const paywall = document.getElementById("paywall");
 
-    // Truth lock
-    if (currentType === "truth" && !isPaidUser) {
+let numerologyText = "";
+
+// Numerology block
+if (birthdate) {
+
+    const lifePath = calculateLifePath(birthdate);
+
+    numerologyText = `
+    <div class="numerology">
+        <h3>🔢 Numerology Insight</h3>
+       <p>Your Life Path Number is <strong>${lifePath}</strong>.</p>
+<p>${numerologyMeanings[lifePath]}</p>
+        <p>This number reflects the core vibration guiding your life journey.</p>
+    </div>
+    `;
+}
+
+// Truth lock
+if (currentType === "truth" && !isPaidUser) {
+
+output.innerHTML = `
+<h2>🔒 Truth Locked</h2>
+
+<div class="blur">
+<p>The universe sees more than you're ready to hear.</p>
+<p>There is a shift forming around you — a truth that could change your direction.</p>
+<p>Someone in your orbit is hiding intentions.</p>
+</div>
+
+<p>Unlock to reveal the full cosmic truth.</p>
+`;
+
+paywall.style.display = "block";
+
+return;
+
+}
+}
+
+// Free daily limit
+if (!isPaidUser && currentType === "daily") {
+
+    if (!canAccessDaily()) {
+
         output.innerHTML = `
-        <h2>🔒 Truth Locked</h2>
-        <p>This revelation isn't for casual stargazers.</p>
-        <p>Upgrade to reveal what the universe is hiding.</p>
-        `;
-        paywall.style.display = "block";
-        return;
-    }
-
-    // Free daily limit
-    if (!isPaidUser && currentType === "daily") {
-        if (!canAccessDaily()) {
-            output.innerHTML = `
             <h2>✨ Daily Reading Used</h2>
             <p>You’ve already consulted the cosmos today.</p>
             <p>Upgrade for unlimited insight.</p>
-            `;
-            paywall.style.display = "block";
-            return;
-        }
+        `;
+
+        paywall.style.display = "block";
+        return;
     }
+}
 
-    paywall.style.display = "none";
-    output.innerHTML = "<p>Consulting the cosmos...</p>";
+paywall.style.display = "none";
+output.innerHTML = "<p>Consulting the cosmos...</p>";
 
-    try {
+try {
 
-        const response = await fetch("https://cosmic-oracle-l7qc.onrender.com://YOUR-RENDER-URL.onrender.com/api/reading", {
+    const response = await fetch(
+        "https://cosmic-oracle-l7qc.onrender.com/api/reading",
+        {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -77,18 +160,63 @@ async function getReading() {
                 sign: sign,
                 type: currentType
             })
-        });
+        }
+    );
 
-        const data = await response.json();
+    const data = await response.json();
 
-        output.innerHTML = `
+    output.innerHTML = `
         <h2>${sign} — ${currentType.toUpperCase()}</h2>
         <p>${data.text}</p>
-        `;
+        ${numerologyText}
+    `;
 
-    } catch (error) {
+} catch (error) {
 
-        output.innerHTML = "<p>The cosmos are unstable. Try again.</p>";
+    output.innerHTML = "<p>The cosmos are unstable. Try again.</p>";
 
-    }
 }
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for (let i = 0; i < 120; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speed: Math.random() * 0.3
+    });
+}
+
+function animateStars(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "white";
+
+    stars.forEach(star => {
+
+        ctx.beginPath();
+
+        ctx.arc(star.x,star.y,star.size,0,Math.PI*2);
+
+        ctx.fill();
+
+        star.y += star.speed;
+
+        if(star.y > canvas.height){
+            star.y = 0;
+        }
+
+    });
+
+    requestAnimationFrame(animateStars);
+
+}
+
+animateStars();
