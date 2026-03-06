@@ -35,7 +35,7 @@ box-shadow:
 0 0 20px rgba(255,255,255,0.05),
 0 0 40px rgba(140,0,255,0.2);
 
-}
+} 
 
 /* cosmic glass card */
 .card{
@@ -187,5 +187,46 @@ height:100%;
 z-index:-2;
 
 pointer-events:none;
+
+}
+h1::after{
+
+content:" ✦ ✧ ✦";
+
+color:#b76dff;
+
+font-size:18px;
+
+margin-left:10px;
+
+}button {
+
+background: linear-gradient(45deg,#6f7cff,#b76dff);
+
+border:none;
+
+padding:12px 22px;
+
+border-radius:20px;
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+
+box-shadow:
+0 0 10px rgba(140,0,255,0.6);
+
+}
+
+button:hover{
+
+transform:scale(1.05);
+
+box-shadow:
+0 0 20px rgba(140,0,255,0.9);
 
 }
