@@ -229,27 +229,26 @@ transform:scale(1.05);
 box-shadow:
 0 0 20px rgba(140,0,255,0.9);
 
-}.moon{
+}
+.moon{
 
 position:fixed;
 
-top:60px;
-right:80px;
+top:80px;
+right:120px;
 
-width:120px;
-height:120px;
+width:160px;
+height:160px;
 
 border-radius:50%;
 
-background:radial-gradient(circle at 30% 30%, #fff, #dcdcff 40%, #a3a3ff);
+background:radial-gradient(circle at 30% 30%, #ffffff, #e6e6ff 40%, #a8a8ff 70%);
 
 box-shadow:
-0 0 40px rgba(255,255,255,0.6),
-0 0 80px rgba(160,160,255,0.4),
-0 0 120px rgba(120,120,255,0.3);
+0 0 60px rgba(255,255,255,0.8),
+0 0 120px rgba(150,150,255,0.6),
+0 0 180px rgba(120,120,255,0.5);
 
 z-index:-1;
-
-opacity:0.9;
 
 }
