@@ -19,9 +19,22 @@ body::before {
 
 /* main container */
 .oracle-box{
-    max-width:700px;
-    margin:auto;
-    padding:40px 20px;
+
+max-width:700px;
+margin:auto;
+padding:40px 20px;
+
+backdrop-filter: blur(20px);
+background: rgba(255,255,255,0.05);
+
+border-radius:20px;
+
+border:1px solid rgba(255,255,255,0.1);
+
+box-shadow:
+0 0 20px rgba(255,255,255,0.05),
+0 0 40px rgba(140,0,255,0.2);
+
 }
 
 /* cosmic glass card */
@@ -46,6 +59,10 @@ h1{
     text-align:center;
     font-size:32px;
     margin-bottom:20px;
+
+    text-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 25px rgba(140,0,255,0.6);
 }
 
 /* dropdown */
@@ -86,7 +103,9 @@ box-shadow:0 0 12px rgba(140,0,255,0.5);
   margin-top: 25px;
   flex-wrap: wrap;
 }
-
+.tab-content{
+margin-top:20px;
+}
 .tab-btn {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.15);
