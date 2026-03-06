@@ -2,50 +2,147 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Cosmic Oracle</title>
-    <link rel="stylesheet" href="style.v1.css">
-
-
+<meta charset="UTF-8">
+<title>Cosmic Oracle</title>
+<link rel="stylesheet" href="style.v1.css">
 </head>
 
 <body>
+
 <canvas id="stars"></canvas>
+
 <h1>Cosmic Oracle</h1>
 
 <div class="oracle-box">
 
-    <select id="signSelect">
-        <button onclick="getReading()">Reveal My Reading</button>
-        <option value="Aries">Aries</option>
-        <option value="Taurus">Taurus</option>
-        <option value="Gemini">Gemini</option>
-        <option value="Cancer">Cancer</option>
-        <option value="Leo">Leo</option>
-        <option value="Virgo">Virgo</option>
-        <option value="Libra">Libra</option>
-        <option value="Scorpio">Scorpio</option>
-        <option value="Sagittarius">Sagittarius</option>
-        <option value="Capricorn">Capricorn</option>
-        <option value="Aquarius">Aquarius</option>
-        <option value="Pisces">Pisces</option>
-    </select>  
-      <label>Birth Date</label>
+<label>Your Zodiac Sign</label>
+
+<select id="signSelect">
+
+<option value="Aries">Aries</option>
+<option value="Taurus">Taurus</option>
+<option value="Gemini">Gemini</option>
+<option value="Cancer">Cancer</option>
+<option value="Leo">Leo</option>
+<option value="Virgo">Virgo</option>
+<option value="Libra">Libra</option>
+<option value="Scorpio">Scorpio</option>
+<option value="Sagittarius">Sagittarius</option>
+<option value="Capricorn">Capricorn</option>
+<option value="Aquarius">Aquarius</option>
+<option value="Pisces">Pisces</option>
+
+</select>
+
+<label>Birth Date</label>
+
 <input type="date" id="birthdate">
-    <div class="tabs">
-        <button onclick="selectType('daily')" id="dailyTab" class="active">Daily</button>
-        <button onclick="selectType('truth')" id="truthTab">Truth</button>
-    </div>
+
+<button onclick="getReading()">🔮 Reveal My Reading</button>
 
 
-    <div id="output" class="reading"></div>
+<div class="tabs">
 
-    <div id="paywall" style="display:none">
-  <p style="margin-bottom:10px; opacity:0.8;">
-    Unlock deeper cosmic truths.
-  </p>
-  <button onclick="unlockMonthly()">✨ Monthly — $4.99</button>
-  <button onclick="unlockYearly()">🌙 Yearly — $39.99</button>
+<button class="tab-btn active" data-tab="reading">Reading</button>
+
+<button class="tab-btn" data-tab="numerology">Numerology</button>
+
+<button class="tab-btn" data-tab="compatibility">Compatibility</button>
+
+<button class="tab-btn" data-tab="premium">Premium</button>
+
+</div>
+
+
+<!-- READING TAB -->
+
+<div id="reading" class="tab-content">
+
+<div id="output" class="reading"></div>
+
+</div>
+
+
+<!-- NUMEROLOGY TAB -->
+
+<div id="numerology" class="tab-content" style="display:none">
+
+<h2>Your Life Path Number</h2>
+
+<button onclick="getReading()">Reveal Numerology</button>
+
+<div id="numerologyResult"></div>
+
+</div>
+
+
+<!-- COMPATIBILITY TAB -->
+
+<div id="compatibility" class="tab-content" style="display:none">
+
+<h2>Compatibility Reading</h2>
+
+<p>Enter another zodiac sign to check your cosmic match.</p>
+
+<select id="matchSign">
+
+<option value="Aries">Aries</option>
+<option value="Taurus">Taurus</option>
+<option value="Gemini">Gemini</option>
+<option value="Cancer">Cancer</option>
+<option value="Leo">Leo</option>
+<option value="Virgo">Virgo</option>
+<option value="Libra">Libra</option>
+<option value="Scorpio">Scorpio</option>
+<option value="Sagittarius">Sagittarius</option>
+<option value="Capricorn">Capricorn</option>
+<option value="Aquarius">Aquarius</option>
+<option value="Pisces">Pisces</option>
+
+</select>
+
+<button>Check Compatibility</button>
+
+<div id="compatibilityResult"></div>
+
+</div>
+
+
+<!-- PREMIUM TAB -->
+
+<div id="premium" class="tab-content" style="display:none">
+
+<h2>Unlock Cosmic Oracle Premium</h2>
+
+<ul>
+
+<li>✨ Full daily horoscope</li>
+
+<li>🔮 Advanced tarot reading</li>
+
+<li>💞 Compatibility analysis</li>
+
+<li>🔢 Full numerology report</li>
+
+</ul>
+
+<button id="upgradeBtn">Upgrade for $4.99</button>
+
+</div>
+
+
+<div id="paywall" style="display:none">
+
+<p style="margin-bottom:10px; opacity:0.8;">
+
+Unlock deeper cosmic truths.
+
+</p>
+
+<button onclick="unlockMonthly()">✨ Monthly — $4.99</button>
+
+<button onclick="unlockYearly()">🌙 Yearly — $39.99</button>
+
 </div>
 
 </div>
@@ -54,4 +151,3 @@
 
 </body>
 </html>
-
