@@ -1,10 +1,20 @@
 console.log("🔮 reading.js loaded");
 
+const params = new URLSearchParams(window.location.search);
+
+if(params.get("success") === "monthly"){
+localStorage.setItem("tier","monthly");
+}
+
+if(params.get("success") === "yearly"){
+localStorage.setItem("tier","yearly");
+}
+
+let userTier = localStorage.getItem("tier") || "free";
+
 /* -------------------------
 TIER SYSTEM
 ------------------------- */
-
-let userTier = localStorage.getItem("tier") || "free";
 
 const limits = {
 
@@ -32,7 +42,37 @@ lucky:true
 };
 
 const tierSettings = limits[userTier];
+function canUseDailyReading(){
 
+const today = new Date().toDateString();
+
+let usage = JSON.parse(localStorage.getItem("dailyUsage")) || {
+date: today,
+count: 0
+};
+
+if(usage.date !== today){
+
+usage = {
+date: today,
+count: 0
+};
+
+}
+
+if(usage.count >= tierSettings.dailyReads){
+
+return false;
+
+}
+
+usage.count++;
+
+localStorage.setItem("dailyUsage", JSON.stringify(usage));
+
+return true;
+
+}
 
 /* -------------------------
 NUMEROLOGY
@@ -103,7 +143,16 @@ MAIN READING
 ------------------------- */
 
 async function getReading(){
+if(!canUseDailyReading()){
 
+output.innerHTML = `
+<h3>🔒 Daily Limit Reached</h3>
+<p>You’ve used your readings for today.</p>
+`;
+
+return;
+
+}
 const sign = document.getElementById("signSelect").value;
 const birthdate = document.getElementById("birthdate").value;
 
@@ -151,7 +200,7 @@ output.innerHTML = `
 
 ${cosmicEnergy}
 
-<p>${data.text}</p>
+<p>${data.text.split(" ").slice(0, tierSettings.readingLength * 20).join(" ")}</p>
 
 ${numerologyText}
 
@@ -209,20 +258,18 @@ result.innerHTML=`
 /* -------------------------
 SOULMATE (YEARLY ONLY)
 ------------------------- */
-
 function revealSoulmate(){
 
 const result = document.getElementById("soulmateResult");
 
 if(!tierSettings.soulmate){
 
-result.innerHTML=`
-
+result.innerHTML = `
 <h3>🔒 Soulmate Prediction Locked</h3>
-
 <p>This insight is available for yearly members.</p>
-
 `;
+
+document.getElementById("paywall").style.display = "block";
 
 return;
 
@@ -271,8 +318,17 @@ button.classList.add("active");
 });
 
 });
+function unlockMonthly(){
 
+window.location.href = "https://buy.stripe.com/9B6fZjcb26pt1tN0SCfAc05";
 
+}
+
+function unlockYearly(){
+
+window.location.href = "https://buy.stripe.com/7sYdRbejaaFJa0j44OfAc04";
+
+}
 /* -------------------------
 STAR BACKGROUND
 ------------------------- */

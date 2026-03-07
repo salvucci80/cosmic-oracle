@@ -162,19 +162,60 @@ margin-bottom:20px;
 
 /* paywall */
 
-#paywall{
+.paywall{
 
-    margin-top:20px;
+margin-top:20px;
+padding:20px;
 
-    padding:20px;
+border-radius:14px;
 
-    border-radius:12px;
+background:rgba(255,255,255,0.06);
 
-    text-align:center;
+border:1px solid rgba(255,255,255,0.15);
 
-    background:rgba(255,0,200,0.08);
+text-align:center;
 
-    border:1px solid rgba(255,0,200,0.3);
+backdrop-filter: blur(8px);
+
+}
+
+.paywall-sub{
+
+opacity:0.8;
+margin-bottom:15px;
+
+}
+
+.paywall-features{
+
+list-style:none;
+padding:0;
+margin:15px 0;
+
+}
+
+.paywall-features li{
+
+margin:6px 0;
+opacity:0.9;
+
+}
+
+.paywall-buttons button{
+
+margin:6px;
+padding:10px 16px;
+
+border-radius:10px;
+
+background:rgba(255,255,255,0.15);
+
+border:none;
+
+cursor:pointer;
+
+font-weight:600;
+
 }
 
 /* blur premium preview */
