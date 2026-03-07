@@ -125,6 +125,15 @@ margin-top:20px;
   background: #6f7cff;
   color: white;
 }
+.tabs{
+
+display:flex;
+justify-content:center;
+gap:12px;
+
+margin-bottom:20px;
+
+}
 /* reading output */
 
 #output{
@@ -235,6 +244,7 @@ box-shadow:
 position:fixed;
 
 top:80px;
+
 right:120px;
 
 width:160px;
@@ -250,5 +260,32 @@ box-shadow:
 0 0 180px rgba(120,120,255,0.5);
 
 z-index:-1;
+
+}
+#compatibilityResult{
+
+margin-top:20px;
+
+padding:15px;
+
+border-radius:12px;
+
+background:rgba(255,255,255,0.05);
+
+border:1px solid rgba(255,255,255,0.1);
+
+}
+.cosmic-meter{
+
+margin-top:15px;
+padding:12px;
+
+border-radius:10px;
+
+background:rgba(255,255,255,0.05);
+
+border:1px solid rgba(255,255,255,0.1);
+
+font-size:14px;
 
 }
