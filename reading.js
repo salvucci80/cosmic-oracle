@@ -210,6 +210,9 @@ return `
 /* -------------------------
 MAIN READING
 ------------------------- */
+
+async function getReading(){
+
 const output = document.getElementById("output");
 
 if(!canUseDailyReading()){
@@ -221,17 +224,12 @@ output.innerHTML = `
 
 return;
 
+}
+
 const sign = document.getElementById("signSelect").value;
 const birthdate = document.getElementById("birthdate").value;
 
-const output = document.getElementById("output");
 const paywall = document.getElementById("paywall");
-
-let numerologyText = "";
-
-if(birthdate){
-
-const lifePath = calculateLifePath(birthdate);
 
 numerologyText = `
 <div class="numerology">
@@ -279,8 +277,6 @@ ${luckyNumber()}
 }catch(error){
 
 output.innerHTML="<p>The cosmos are unstable. Try again.</p>";
-
-}
 
 }
 
