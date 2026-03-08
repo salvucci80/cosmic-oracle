@@ -41,7 +41,6 @@
 
 <button onclick="getReading()">🔮 Reveal My Reading</button>
 
-
 <div class="tabs">
 
 <button class="tab-btn active" data-tab="reading">Reading</button>
@@ -61,6 +60,8 @@
 
 <div id="output" class="reading"></div>
 
+<div id="constellationBox"></div>
+
 </div>
 
 
@@ -73,6 +74,14 @@
 <button onclick="getReading()">Reveal Numerology</button>
 
 <div id="numerologyResult"></div>
+<button class="share" onclick="shareReading()">✨ Share My Reading</button>
+
+<h2>🔮 Tarot Reading</h2>
+
+<button onclick="drawTarot()">Draw Your Tarot Card</button>
+
+<div id="tarotResult"></div>
+<button class="share" onclick="shareReading()">✨ Share My Reading</button>
 
 </div>
 
@@ -119,37 +128,35 @@
 <button onclick="checkCompatibility()">Reveal Chemistry</button>
 
 <div id="compatibilityResult"></div>
+<button class="share" onclick="shareReading()">✨ Share My Reading</button>
 
 </div>
 
 
 <!-- PREMIUM TAB -->
 
-<hr style="margin:20px 0; opacity:0.2;">
-
-<h2>🔮 Soulmate Prediction</h2>
-
-<button onclick="revealSoulmate()">Reveal My Cosmic Soulmate</button>
-
-<div id="soulmateResult"></div>
-
 <div id="premium" class="tab-content" style="display:none">
 
-<h2>Unlock Cosmic Oracle Premium</h2>
+<h2>Unlock Cosmic Oracle</h2>
 
 <ul>
 
-<li>✨ Full daily horoscope</li>
+<li>💎 Cosmic Pack — Choose 2 premium insights permanently ($5.00)</li>
 
-<li>🔮 Advanced tarot reading</li>
+<li>✨ Monthly — 2 readings per day + lucky numbers ($9.99/month)</li>
 
-<li>💞 Compatibility analysis</li>
-
-<li>🔢 Full numerology report</li>
+<li>🌙 Yearly — 3 readings daily + soulmate prediction + full access ($39.99/year)</li>
 
 </ul>
 
-<button id="upgradeBtn">Upgrade for $4.99</button>
+<hr style="margin:20px 0; opacity:0.2;">
+
+<h3>💎 One-Time Cosmic Pack — $5</h3>
+
+<p>Choose any 2 premium insights</p>
+
+<button onclick="unlockPack()">Unlock Cosmic Pack</button>
+
 <hr style="margin:20px 0; opacity:0.2;">
 
 <h2>🔮 Soulmate Prediction</h2>
@@ -158,9 +165,15 @@
 
 <div id="soulmateResult"></div>
 
+<button class="share" onclick="shareReading()">✨ Share My Reading</button>
+
 </div>
 
+</div>
 
+</div>
+
+</div
 <div id="paywall" class="paywall" style="display:none">
 
 <h3>🔒 Cosmic Insight Locked</h3>
@@ -172,29 +185,24 @@ Upgrade to unlock deeper guidance from the universe.
 <ul class="paywall-features">
 
 <li>✨ Extended horoscope readings</li>
-
 <li>🔢 Advanced numerology insights</li>
-
 <li>🍀 Lucky number predictions</li>
-
 <li>💞 Cosmic compatibility analysis</li>
-
 <li>🔮 Soulmate prediction (Yearly)</li>
 
 </ul>
 
 <div class="paywall-buttons">
 
-<button onclick="unlockMonthly()">✨ Monthly — $4.99</button>
+<button onclick="unlockPack()">💎 Cosmic Pack — $5.00</button>
+
+<button onclick="unlockMonthly()">✨ Monthly — $9.99</button>
 
 <button onclick="unlockYearly()">🌙 Yearly — $39.99</button>
 
 </div>
 
 </div>
-
-</div>
-
 <script src="reading.js"></script>
 
 </body>

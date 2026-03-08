@@ -11,7 +11,35 @@ localStorage.setItem("tier","yearly");
 }
 
 let userTier = localStorage.getItem("tier") || "free";
+let premiumChoices = JSON.parse(localStorage.getItem("premiumChoices")) || [];
 
+const constellations = {
+
+Aries:"♈ The Ram constellation symbolizes courage and bold beginnings.",
+
+Taurus:"♉ The Bull constellation represents stability, patience, and strength.",
+
+Gemini:"♊ The Twins constellation reflects curiosity and dual energy.",
+
+Cancer:"♋ The Crab constellation is tied to emotional depth and intuition.",
+
+Leo:"♌ The Lion constellation radiates confidence, leadership, and fire.",
+
+Virgo:"♍ The Maiden constellation represents wisdom and thoughtful guidance.",
+
+Libra:"♎ The Scales constellation symbolizes harmony and balance.",
+
+Scorpio:"♏ The Scorpion constellation carries mystery, passion, and transformation.",
+
+Sagittarius:"♐ The Archer constellation seeks adventure and higher truth.",
+
+Capricorn:"♑ The Sea Goat constellation represents ambition and discipline.",
+
+Aquarius:"♒ The Water Bearer constellation channels innovation and vision.",
+
+Pisces:"♓ The Fish constellation represents intuition, dreams, and spiritual flow."
+
+};
 /* -------------------------
 TIER SYSTEM
 ------------------------- */
@@ -22,21 +50,24 @@ free:{
 dailyReads:1,
 readingLength:2,
 soulmate:false,
-lucky:false
+lucky:false,
+tarot:false
 },
 
 monthly:{
 dailyReads:2,
 readingLength:4,
 soulmate:false,
-lucky:true
+lucky:true,
+tarot:false
 },
 
 yearly:{
 dailyReads:3,
 readingLength:10,
 soulmate:true,
-lucky:true
+lucky:true,
+tarot:true
 }
 
 };
@@ -110,8 +141,46 @@ return `
 </div>
 `;
 
+}const tarotCards = [
+
+{ name:"The Fool", meaning:"A new journey begins. Trust the universe." },
+
+{ name:"The Magician", meaning:"You already have the power you need." },
+
+{ name:"The High Priestess", meaning:"Your intuition is guiding you." },
+
+{ name:"The Lovers", meaning:"A powerful emotional connection is forming." },
+
+{ name:"The Star", meaning:"Hope and spiritual guidance are surrounding you." },
+
+{ name:"The Sun", meaning:"Success and joy are entering your life." }
+
+];
+function drawTarot(){
+
+const result = document.getElementById("tarotResult");
+
+if(!tierSettings.tarot){
+
+result.innerHTML = `
+<h3>🔒 Tarot Reading Locked</h3>
+<p>Unlock with Yearly or Premium Pick.</p>
+`;
+
+document.getElementById("paywall").style.display = "block";
+
+return;
+
 }
 
+const card = tarotCards[Math.floor(Math.random() * tarotCards.length)];
+
+result.innerHTML = `
+<h3>${card.name}</h3>
+<p>${card.meaning}</p>
+`;
+
+}
 
 /* -------------------------
 COSMIC ENERGY
@@ -141,8 +210,8 @@ return `
 /* -------------------------
 MAIN READING
 ------------------------- */
+const output = document.getElementById("output");
 
-async function getReading(){
 if(!canUseDailyReading()){
 
 output.innerHTML = `
@@ -152,7 +221,6 @@ output.innerHTML = `
 
 return;
 
-}
 const sign = document.getElementById("signSelect").value;
 const birthdate = document.getElementById("birthdate").value;
 
@@ -264,12 +332,15 @@ const result = document.getElementById("soulmateResult");
 
 if(!tierSettings.soulmate){
 
-result.innerHTML = `
+result.innerHTML=`
+
 <h3>🔒 Soulmate Prediction Locked</h3>
 <p>This insight is available for yearly members.</p>
+
 `;
 
 document.getElementById("paywall").style.display = "block";
+
 
 return;
 
@@ -291,7 +362,29 @@ result.innerHTML=`
 `;
 
 }
+function shareReading(){
 
+const resultText = document.body.innerText;
+
+const url = window.location.href;
+
+if(navigator.share){
+
+navigator.share({
+title: "My Cosmic Reading",
+text: resultText.substring(0,200),
+url: url
+});
+
+}else{
+
+navigator.clipboard.writeText(url);
+
+alert("Link copied! Share your cosmic reading ✨");
+
+}
+
+}
 
 /* -------------------------
 TAB SWITCHING
@@ -326,7 +419,32 @@ window.location.href = "https://buy.stripe.com/9B6fZjcb26pt1tN0SCfAc05";
 
 function unlockYearly(){
 
+tierSettings.tarot = true;
+tierSettings.soulmate = true;
+
+
 window.location.href = "https://buy.stripe.com/7sYdRbejaaFJa0j44OfAc04";
+
+}
+
+function unlockPack(){
+
+window.location.href = "https://buy.stripe.com/aFa3cx7UM8xB6O79p8fAc06";
+
+}
+
+function unlockPremiumFeature(feature){
+
+if(premiumChoices.length >= 2){
+alert("You already unlocked your 2 premium features.");
+return;
+}
+
+if(!premiumChoices.includes(feature)){
+premiumChoices.push(feature);
+localStorage.setItem("premiumChoices", JSON.stringify(premiumChoices));
+tierSettings[feature] = true;
+}
 
 }
 /* -------------------------

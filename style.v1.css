@@ -94,6 +94,10 @@ transform:scale(1.05);
 
 box-shadow:0 0 12px rgba(140,0,255,0.5);
 
+}button.share{
+background:#6b4cff;
+color:white;
+margin-top:10px;
 }
 /* tabs */
 .tabs {
@@ -328,5 +332,20 @@ background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.1);
 
 font-size:14px;
+
+}
+.constellation{
+
+margin-top:20px;
+padding:15px;
+border-radius:12px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(5px);
+
+}
+
+.constellation h3{
+
+margin-bottom:8px;
 
 }
