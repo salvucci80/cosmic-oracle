@@ -1,5 +1,9 @@
 console.log("🔮 reading.js loaded");
 
+/* -------------------------
+USER TIER
+------------------------- */
+
 const params = new URLSearchParams(window.location.search);
 
 if(params.get("success") === "monthly"){
@@ -13,33 +17,6 @@ localStorage.setItem("tier","yearly");
 let userTier = localStorage.getItem("tier") || "free";
 let premiumChoices = JSON.parse(localStorage.getItem("premiumChoices")) || [];
 
-const constellations = {
-
-Aries:"♈ The Ram constellation symbolizes courage and bold beginnings.",
-
-Taurus:"♉ The Bull constellation represents stability, patience, and strength.",
-
-Gemini:"♊ The Twins constellation reflects curiosity and dual energy.",
-
-Cancer:"♋ The Crab constellation is tied to emotional depth and intuition.",
-
-Leo:"♌ The Lion constellation radiates confidence, leadership, and fire.",
-
-Virgo:"♍ The Maiden constellation represents wisdom and thoughtful guidance.",
-
-Libra:"♎ The Scales constellation symbolizes harmony and balance.",
-
-Scorpio:"♏ The Scorpion constellation carries mystery, passion, and transformation.",
-
-Sagittarius:"♐ The Archer constellation seeks adventure and higher truth.",
-
-Capricorn:"♑ The Sea Goat constellation represents ambition and discipline.",
-
-Aquarius:"♒ The Water Bearer constellation channels innovation and vision.",
-
-Pisces:"♓ The Fish constellation represents intuition, dreams, and spiritual flow."
-
-};
 /* -------------------------
 TIER SYSTEM
 ------------------------- */
@@ -73,6 +50,11 @@ tarot:true
 };
 
 const tierSettings = limits[userTier];
+
+/* -------------------------
+DAILY LIMIT
+------------------------- */
+
 function canUseDailyReading(){
 
 const today = new Date().toDateString();
@@ -83,22 +65,14 @@ count: 0
 };
 
 if(usage.date !== today){
-
-usage = {
-date: today,
-count: 0
-};
-
+usage = {date:today,count:0};
 }
 
 if(usage.count >= tierSettings.dailyReads){
-
 return false;
-
 }
 
 usage.count++;
-
 localStorage.setItem("dailyUsage", JSON.stringify(usage));
 
 return true;
@@ -112,7 +86,6 @@ NUMEROLOGY
 function calculateLifePath(dateString){
 
 const numbers = dateString.replaceAll("-","").split("").map(Number);
-
 let sum = numbers.reduce((a,b)=>a+b,0);
 
 while(sum > 9 && sum !== 11 && sum !== 22 && sum !== 33){
@@ -123,9 +96,8 @@ return sum;
 
 }
 
-
 /* -------------------------
-LUCKY NUMBER (PAID)
+LUCKY NUMBER
 ------------------------- */
 
 function luckyNumber(){
@@ -141,21 +113,23 @@ return `
 </div>
 `;
 
-}const tarotCards = [
+}
+
+/* -------------------------
+TAROT
+------------------------- */
+
+const tarotCards = [
 
 { name:"The Fool", meaning:"A new journey begins. Trust the universe." },
-
 { name:"The Magician", meaning:"You already have the power you need." },
-
 { name:"The High Priestess", meaning:"Your intuition is guiding you." },
-
 { name:"The Lovers", meaning:"A powerful emotional connection is forming." },
-
 { name:"The Star", meaning:"Hope and spiritual guidance are surrounding you." },
-
 { name:"The Sun", meaning:"Success and joy are entering your life." }
 
 ];
+
 function drawTarot(){
 
 const result = document.getElementById("tarotResult");
@@ -167,13 +141,12 @@ result.innerHTML = `
 <p>Unlock with Yearly or Premium Pick.</p>
 `;
 
-document.getElementById("paywall").style.display = "block";
-
+document.getElementById("paywall").style.display="block";
 return;
 
 }
 
-const card = tarotCards[Math.floor(Math.random() * tarotCards.length)];
+const card = tarotCards[Math.floor(Math.random()*tarotCards.length)];
 
 result.innerHTML = `
 <h3>${card.name}</h3>
@@ -206,7 +179,6 @@ return `
 
 }
 
-
 /* -------------------------
 MAIN READING
 ------------------------- */
@@ -214,10 +186,11 @@ MAIN READING
 async function getReading(){
 
 const output = document.getElementById("output");
+const paywall = document.getElementById("paywall");
 
 if(!canUseDailyReading()){
 
-output.innerHTML = `
+output.innerHTML=`
 <h3>🔒 Daily Limit Reached</h3>
 <p>You’ve used your readings for today.</p>
 `;
@@ -229,21 +202,22 @@ return;
 const sign = document.getElementById("signSelect").value;
 const birthdate = document.getElementById("birthdate").value;
 
-const paywall = document.getElementById("paywall");
+let numerologyText="";
 
-numerologyText = `
+if(birthdate){
+
+const lifePath = calculateLifePath(birthdate);
+
+numerologyText=`
 <div class="numerology">
-
 <h3>🔢 Numerology Insight</h3>
-
 <p>Your Life Path Number is <strong>${lifePath}</strong>.</p>
-
 </div>
 `;
 
 }
 
-output.innerHTML = "<p>Consulting the cosmos...</p>";
+output.innerHTML="<p>Consulting the cosmos...</p>";
 
 try{
 
@@ -251,22 +225,20 @@ const response = await fetch(
 "https://cosmic-oracle-l7qc.onrender.com/api/reading",
 {
 method:"POST",
-headers:{ "Content-Type":"application/json" },
-body:JSON.stringify({ sign:sign })
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({sign:sign})
 }
 );
 
 const data = await response.json();
 
-const cosmicEnergy = generateCosmicEnergy();
-
-output.innerHTML = `
+output.innerHTML=`
 
 <h2>${sign}</h2>
 
-${cosmicEnergy}
+${generateCosmicEnergy()}
 
-<p>${data.text.split(" ").slice(0, tierSettings.readingLength * 20).join(" ")}</p>
+<p>${data.text.split(" ").slice(0,tierSettings.readingLength*20).join(" ")}</p>
 
 ${numerologyText}
 
@@ -280,6 +252,7 @@ output.innerHTML="<p>The cosmos are unstable. Try again.</p>";
 
 }
 
+}
 
 /* -------------------------
 COMPATIBILITY
@@ -295,13 +268,11 @@ const result = document.getElementById("compatibilityResult");
 const chemistry = Math.floor(Math.random()*41)+60;
 
 const messages=[
-
 "Cosmic sparks are strong between these signs.",
 "There is magnetic attraction written in the stars.",
 "A deep emotional connection is possible here.",
 "This pairing can be both passionate and transformative.",
 "The universe suggests powerful chemistry."
-
 ];
 
 const message = messages[Math.floor(Math.random()*messages.length)];
@@ -318,10 +289,10 @@ result.innerHTML=`
 
 }
 
-
 /* -------------------------
-SOULMATE (YEARLY ONLY)
+SOULMATE
 ------------------------- */
+
 function revealSoulmate(){
 
 const result = document.getElementById("soulmateResult");
@@ -329,15 +300,11 @@ const result = document.getElementById("soulmateResult");
 if(!tierSettings.soulmate){
 
 result.innerHTML=`
-
 <h3>🔒 Soulmate Prediction Locked</h3>
 <p>This insight is available for yearly members.</p>
-
 `;
 
-document.getElementById("paywall").style.display = "block";
-
-
+document.getElementById("paywall").style.display="block";
 return;
 
 }
@@ -350,40 +317,14 @@ const signs=[
 const soulmate = signs[Math.floor(Math.random()*signs.length)];
 
 result.innerHTML=`
-
 <h3>Your Soulmate Sign</h3>
-
 <p style="font-size:28px">${soulmate}</p>
-
 `;
-
-}
-function shareReading(){
-
-const resultText = document.body.innerText;
-
-const url = window.location.href;
-
-if(navigator.share){
-
-navigator.share({
-title: "My Cosmic Reading",
-text: resultText.substring(0,200),
-url: url
-});
-
-}else{
-
-navigator.clipboard.writeText(url);
-
-alert("Link copied! Share your cosmic reading ✨");
-
-}
 
 }
 
 /* -------------------------
-TAB SWITCHING
+TABS
 ------------------------- */
 
 document.querySelectorAll(".tab-btn").forEach(button=>{
@@ -407,47 +348,15 @@ button.classList.add("active");
 });
 
 });
-function unlockMonthly(){
 
-window.location.href = "https://buy.stripe.com/9B6fZjcb26pt1tN0SCfAc05";
-
-}
-
-function unlockYearly(){
-
-tierSettings.tarot = true;
-tierSettings.soulmate = true;
-
-
-window.location.href = "https://buy.stripe.com/7sYdRbejaaFJa0j44OfAc04";
-
-}
-
-function unlockPack(){
-
-window.location.href = "https://buy.stripe.com/aFa3cx7UM8xB6O79p8fAc06";
-
-}
-
-function unlockPremiumFeature(feature){
-
-if(premiumChoices.length >= 2){
-alert("You already unlocked your 2 premium features.");
-return;
-}
-
-if(!premiumChoices.includes(feature)){
-premiumChoices.push(feature);
-localStorage.setItem("premiumChoices", JSON.stringify(premiumChoices));
-tierSettings[feature] = true;
-}
-
-}
 /* -------------------------
 STAR BACKGROUND
 ------------------------- */
 
 const canvas = document.getElementById("stars");
+
+if(canvas){
+
 const ctx = canvas.getContext("2d");
 
 canvas.width = window.innerWidth;
@@ -495,33 +404,10 @@ star.y=0;
 
 });
 
-
-for(let i=0;i<stars.length;i++){
-
-for(let j=i+1;j<stars.length;j++){
-
-const dx = stars[i].x-stars[j].x;
-const dy = stars[i].y-stars[j].y;
-
-const distance = Math.sqrt(dx*dx+dy*dy);
-
-if(distance<120){
-
-ctx.beginPath();
-ctx.moveTo(stars[i].x,stars[i].y);
-ctx.lineTo(stars[j].x,stars[j].y);
-
-ctx.strokeStyle="rgba(255,255,255,0.05)";
-ctx.stroke();
-
-}
-
-}
-
-}
-
 requestAnimationFrame(animateStars);
 
 }
 
 animateStars();
+
+}
