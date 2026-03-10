@@ -365,29 +365,52 @@ button.classList.add("active");
 STAR BACKGROUND
 ------------------------- */
 
+/* -------------------------
+STAR BACKGROUND
+------------------------- */
+
 const canvas = document.getElementById("stars");
 
 if(canvas){
 
 const ctx = canvas.getContext("2d");
 
+function resizeCanvas(){
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+}
 
-let stars=[];
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-for(let i=0;i<180;i++){
+let stars = [];
+let shootingStars = [];
 
+for(let i=0;i<200;i++){
 stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
-size:Math.random()*2.5,
+size:Math.random()*2,
 speed:Math.random()*0.15,
 opacity:Math.random(),
-twinkle:Math.random()*0.02
+twinkle:(Math.random()*0.02)+0.005
+});
+}
+
+function createShootingStar(){
+
+shootingStars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height/2,
+length:Math.random()*80+50,
+speed:Math.random()*10+6,
+size:2,
+life:0
 });
 
 }
+
+setInterval(createShootingStar,6000);
 
 function animateStars(){
 
@@ -397,21 +420,42 @@ stars.forEach(star=>{
 
 star.opacity+=star.twinkle;
 
-if(star.opacity>1||star.opacity<0.1){
+if(star.opacity>1 || star.opacity<0.2){
 star.twinkle*=-1;
 }
 
-ctx.globalAlpha=star.opacity;
+ctx.globalAlpha = star.opacity;
 
 ctx.beginPath();
 ctx.arc(star.x,star.y,star.size,0,Math.PI*2);
 ctx.fillStyle="white";
 ctx.fill();
 
-star.y+=star.speed;
+star.y += star.speed;
 
-if(star.y>canvas.height){
-star.y=0;
+if(star.y > canvas.height){
+star.y = 0;
+}
+
+});
+
+ctx.globalAlpha = 1;
+
+shootingStars.forEach((star,index)=>{
+
+ctx.beginPath();
+ctx.moveTo(star.x,star.y);
+ctx.lineTo(star.x - star.length, star.y + star.length/2);
+ctx.strokeStyle="white";
+ctx.lineWidth=2;
+ctx.stroke();
+
+star.x += star.speed;
+star.y += star.speed/2;
+star.life++;
+
+if(star.life > 20){
+shootingStars.splice(index,1);
 }
 
 });
