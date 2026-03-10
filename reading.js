@@ -178,6 +178,18 @@ return `
 `;
 
 }
+<div class="blur-fade">
+<p class="${userTier === 'free' ? 'locked-reading' : ''}">
+${limitSentences(data.text)}
+</p>
+</div>
+
+const sentenceLimit = tierSettings.readingLength;
+
+const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
+
+return sentences.slice(0, sentenceLimit).join(" ");
+
 
 /* -------------------------
 MAIN READING
@@ -238,7 +250,7 @@ output.innerHTML=`
 
 ${generateCosmicEnergy()}
 
-<p>${data.text.split(" ").slice(0,tierSettings.readingLength*20).join(" ")}</p>
+<p>${limitSentences(data.text)}</p>
 
 ${numerologyText}
 
