@@ -221,14 +221,7 @@ cursor:pointer;
 font-weight:600;
 
 }
-
-/* blur premium preview */
-
-.blur{
-
-    filter:blur(6px);
-    user-select:none;
-}#stars{
+#stars{
 #stars{
 filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
 }
