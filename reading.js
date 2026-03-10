@@ -178,11 +178,7 @@ return `
 `;
 
 }
-<div class="blur-fade">
-<p class="${userTier === 'free' ? 'locked-reading' : ''}">
-${limitSentences(data.text)}
-</p>
-</div>
+function limitSentences(text){
 
 const sentenceLimit = tierSettings.readingLength;
 
@@ -190,6 +186,7 @@ const sentences = text.match(/[^\.!\?]+[\.!\?]+/g) || [text];
 
 return sentences.slice(0, sentenceLimit).join(" ");
 
+}
 
 /* -------------------------
 MAIN READING
@@ -290,17 +287,13 @@ const messages=[
 const message = messages[Math.floor(Math.random()*messages.length)];
 
 result.innerHTML=`
-
-<h3>${your} ❤️ ${their}</h3>
-
-<p style="font-size:28px;">${chemistry}% Cosmic Match</p>
-
+<h3>💞 Compatibility</h3>
+<p>${your} + ${their}</p>
+<p><strong>${chemistry}% Cosmic Chemistry</strong></p>
 <p>${message}</p>
-
 `;
 
 }
-
 /* -------------------------
 SOULMATE
 ------------------------- */
@@ -358,45 +351,33 @@ btn.classList.remove("active");
 button.classList.add("active");
 
 });
-
 });
 
 /* -------------------------
 STAR BACKGROUND
 ------------------------- */
 
-/* -------------------------
-STAR BACKGROUND
-------------------------- */
+document.querySelectorAll(".tab-btn").forEach(button=>{
 
-const canvas = document.getElementById("stars");
+button.addEventListener("click",()=>{
 
-if(canvas){
+const tab = button.dataset.tab;
 
-const ctx = canvas.getContext("2d");
-
-function resizeCanvas(){
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-}
-
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-let stars = [];
-let shootingStars = [];
-
-for(let i=0;i<200;i++){
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-size:Math.random()*2,
-speed:Math.random()*0.15,
-opacity:Math.random(),
-twinkle:(Math.random()*0.02)+0.005
+document.querySelectorAll(".tab-content").forEach(section=>{
+section.style.display="none";
 });
-}
 
+document.getElementById(tab).style.display="block";
+
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+btn.classList.remove("active");
+});
+
+button.classList.add("active");
+
+});
+
+});
 function createShootingStar(){
 
 shootingStars.push({
@@ -465,5 +446,3 @@ requestAnimationFrame(animateStars);
 }
 
 animateStars();
-
-}
