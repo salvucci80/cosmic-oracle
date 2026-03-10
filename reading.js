@@ -332,9 +332,9 @@ result.innerHTML=`
 TABS
 ------------------------- */
 
-document.querySelectorAll(".tab-btn").forEach(button=>{
+document.querySelectorAll(".tab-btn").forEach(button => {
 
-button.addEventListener("click",()=>{
+button.addEventListener("click", () => {
 
 const tab = button.dataset.tab;
 
@@ -351,33 +351,44 @@ btn.classList.remove("active");
 button.classList.add("active");
 
 });
+
 });
+
 
 /* -------------------------
 STAR BACKGROUND
 ------------------------- */
 
-document.querySelectorAll(".tab-btn").forEach(button=>{
+const canvas = document.getElementById("stars");
 
-button.addEventListener("click",()=>{
+if(canvas){
 
-const tab = button.dataset.tab;
+const ctx = canvas.getContext("2d");
 
-document.querySelectorAll(".tab-content").forEach(section=>{
-section.style.display="none";
+function resizeCanvas(){
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let stars = [];
+let shootingStars = [];
+
+for(let i=0;i<180;i++){
+
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2,
+speed:Math.random()*0.15,
+opacity:Math.random(),
+twinkle:(Math.random()*0.02)+0.005
 });
 
-document.getElementById(tab).style.display="block";
+}
 
-document.querySelectorAll(".tab-btn").forEach(btn=>{
-btn.classList.remove("active");
-});
-
-button.classList.add("active");
-
-});
-
-});
 function createShootingStar(){
 
 shootingStars.push({
@@ -385,7 +396,6 @@ x:Math.random()*canvas.width,
 y:Math.random()*canvas.height/2,
 length:Math.random()*80+50,
 speed:Math.random()*10+6,
-size:2,
 life:0
 });
 
@@ -446,3 +456,5 @@ requestAnimationFrame(animateStars);
 }
 
 animateStars();
+
+}
